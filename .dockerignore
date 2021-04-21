@@ -1,0 +1,9 @@
+.vscode
+.git
+.gitignore
+Readme.md
+build
+Dockerfile
+Dockerfile-debian
+docker-compose.yaml
+run.sh
