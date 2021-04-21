@@ -15,6 +15,6 @@ WORKDIR /app/build
 RUN cmake ..
 RUN make -j $(nproc)
 
-# EXPOSE 8000
+# EXPOSE 8001
 
 ENTRYPOINT ["./docker-api-swagger"]

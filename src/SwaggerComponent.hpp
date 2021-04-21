@@ -7,7 +7,7 @@
 
 /**
  *  Swagger ui is served at
- *  http://host:port/swagger/ui
+ *  http://host:port/
  */
 class SwaggerComponent {
 public:
@@ -15,7 +15,7 @@ public:
    *  Swagger-Ui Resources (../res)
    */
   OATPP_CREATE_COMPONENT(std::shared_ptr<swagger::Resources>, swaggerResources)([] {
-    // Make sure to specify correct full path to /res folder !!!
+    // Make sure to specify correct full path to ../res folder !!!
     return swagger::Resources::loadResources("../res");
   }());
   

@@ -2,9 +2,6 @@
 #ifndef docker_api_swagger_SwaggerController_hpp
 #define docker_api_swagger_SwaggerController_hpp
 
-#include "dto/DTOs.hpp"
-#include "utils/JSONUtils.hpp"
-
 #include "swagger/Types.hpp"
 #include "swagger/Resources.hpp"
 
@@ -16,35 +13,15 @@
 #include "oatpp/core/macro/codegen.hpp"
 #include "oatpp/core/macro/component.hpp"
 
-#include <iostream>
-
-using namespace std;
-
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
 class SwaggerController : public oatpp::web::server::api::ApiController
 {
 private:
-    OATPP_COMPONENT(std::shared_ptr<utils::JSONUtils>, jsonUtils);
+    constexpr static const char* TAG = "SwaggerController";
     OATPP_COMPONENT(std::shared_ptr<swagger::Resources>, m_resources);
 
 private:
-    std::shared_ptr<OutgoingResponse> createErroeResponse(const Status &status, const String& message)
-    {
-        auto dto = ErrorResponseDto::createShared();
-        dto->statusCode = status.code;
-        dto->error = status.description;
-        dto->message = message;
-        return createDtoResponse(status, dto);
-    }
-
-    std::shared_ptr<OutgoingResponse> createSuccessResponse(const Status &status, const String& message)
-    {
-        auto dto = SuccessResponseDto::createShared();
-        dto->message = message;
-        return createDtoResponse(status, dto);
-    }
-
     std::shared_ptr<ApiController::OutgoingResponse> getFile(const String& filename) {
         if(m_resources->isStreaming()) {
             auto body = std::make_shared<oatpp::web::protocol::http::outgoing::StreamingBody>(

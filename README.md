@@ -21,3 +21,13 @@ Swagger UI for Docker Engine API written in C++ based on [Oat++](https://oatpp.i
     ```
 1. Ensure that anyone that has access to the TCP listening socket is a trusted user since access to the docker daemon is root-equivalent.
 
+### Build
+```shell script
+mkdir build && cd build
+cmake ..
+make -j $(nproc)
+```
+### Run
+```shell script
+./docker-api-swagger
+```
