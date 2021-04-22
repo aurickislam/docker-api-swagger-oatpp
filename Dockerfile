@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:latest as build
 
 RUN apk update && apk upgrade && apk add g++ git make cmake pkgconfig curl-dev
 
@@ -15,6 +15,18 @@ WORKDIR /app/build
 RUN cmake ..
 RUN make -j $(nproc)
 
-# EXPOSE 8000
 
-ENTRYPOINT ["./docker-api-swagger"]
+FROM alpine:latest
+
+RUN apk update && apk upgrade && apk add g++
+
+COPY --from=build /app/build/docker-api-swagger /app/build/docker-api-swagger
+
+# COPY ./res /app/res
+COPY --from=build /app/res /app/res
+
+WORKDIR /app/build
+
+# EXPOSE 8001
+
+CMD ["./docker-api-swagger"]
