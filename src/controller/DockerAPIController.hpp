@@ -23,13 +23,6 @@ private:
     OATPP_COMPONENT(std::shared_ptr<oatpp::web::client::HttpRequestExecutor>, requestExecutor);
 
 private:
-    /*std::shared_ptr<OutgoingResponse> createSuccessResponse(const Status& status, const String& message)
-    {
-        const auto& dto = SuccessResponseDto::createShared();
-        dto->message = message;
-        return createDtoResponse(status, dto);
-    }*/
-    
     std::shared_ptr<OutgoingResponse> createErroeResponse(const Status& status, const String& message)
     {
         const auto& dto = ErrorResponseDto::createShared();

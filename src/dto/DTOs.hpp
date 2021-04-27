@@ -7,20 +7,9 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-class SuccessResponseDto : public oatpp::DTO {
-  
-  DTO_INIT(SuccessResponseDto, DTO)
-  
-  DTO_FIELD_INFO(message) {
-    info->description = "Response message"; //<-- Fields description is integrated with Swagger-UI.
-  }
-  DTO_FIELD(String, message);
-  
-};
-
 class ErrorResponseDto : public oatpp::DTO {
   
-  DTO_INIT(ErrorResponseDto, DTO)
+  DTO_INIT(ErrorResponseDto, DTO);
   
   DTO_FIELD_INFO(statusCode) {
     info->description = "Error status code"; //<-- Fields description is integrated with Swagger-UI.
@@ -39,18 +28,38 @@ class ErrorResponseDto : public oatpp::DTO {
   
 };
 
-class MyRequestDto : public oatpp::DTO {
+class DockerInfo : public oatpp::DTO {
   
-  DTO_INIT(MyRequestDto, DTO)
+  DTO_INIT(DockerInfo, DTO);
   
-  DTO_FIELD(String, message);
-  DTO_FIELD(Int32, code);
+  DTO_FIELD(String, Name);
+  DTO_FIELD(UInt16, NCPU);
+  DTO_FIELD(UInt32, MemTotal);
+  DTO_FIELD(String, OperatingSystem);
+  DTO_FIELD(String, OSVersion);
+  DTO_FIELD(String, OSType);
+  DTO_FIELD(String, KernelVersion);
+  DTO_FIELD(String, Architecture);
+  DTO_FIELD(UInt16, Images);
+  DTO_FIELD(UInt16, Containers);
+  DTO_FIELD(UInt16, ContainersRunning);
+  
+};
+
+class DockerVersion : public oatpp::DTO {
+  
+  DTO_INIT(DockerVersion, DTO);
+  
+  DTO_FIELD(String, Version);
+  DTO_FIELD(String, ApiVersion);
+  DTO_FIELD(String, MinAPIVersion);
+  DTO_FIELD(String, Arch);
   
 };
 
 class HttpBinResponseDto : public oatpp::DTO {
   
-  DTO_INIT(HttpBinResponseDto, DTO)
+  DTO_INIT(HttpBinResponseDto, DTO);
   
   DTO_FIELD(String, data);
   DTO_FIELD(Fields<String>::ObjectWrapper, headers);

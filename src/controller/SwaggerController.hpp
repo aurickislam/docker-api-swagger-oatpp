@@ -48,7 +48,6 @@ public:
     }
     
     ENDPOINT("GET", "swagger/{filename}", getUIResource, PATH(String, filename)) {
-        // OATPP_LOGD("GET", "/swagger/%s", filename->c_str());
        return getFile(filename);
     }
 };

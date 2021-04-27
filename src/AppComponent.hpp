@@ -20,6 +20,8 @@
 #include "oatpp/core/base/CommandLineArguments.hpp"
 #include "oatpp/core/macro/component.hpp"
 
+#include <iostream>
+
 /**
  *  Class which creates and holds Application components and registers components in oatpp::base::Environment
  *  Order of components initialization is from top to bottom
@@ -65,7 +67,7 @@ public:
    */
   OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::data::mapping::ObjectMapper>, apiObjectMapper)([] {
     const auto& objectMapper = oatpp::parser::json::mapping::ObjectMapper::createShared();
-    objectMapper->getDeserializer()->getConfig()->allowUnknownFields = false;
+    // objectMapper->getDeserializer()->getConfig()->allowUnknownFields = false;
     objectMapper->getSerializer()->getConfig()->useBeautifier = true;
     return objectMapper;
   }());
@@ -82,8 +84,10 @@ public:
    */
   OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::web::client::HttpRequestExecutor>, requestExecutor)([] {
     const oatpp::String& ip = std::getenv("DOCKER_SERVER_IP");
+    std::cout << "\nDOCKER_SERVER_IP: " << ip->std_str() << "\n";
     
     const unsigned short port = atoi(std::getenv("DOCKER_SERVER_PORT"));
+    std::cout << "DOCKER_SERVER_PORT: " << port << "\n";
 
     const auto& connectionProvider = oatpp::network::tcp::client::ConnectionProvider::createShared({ip, port});
     // auto connectionProvider = oatpp::network::tcp::client::ConnectionProvider::createShared({"192.168.88.2", 8083});
