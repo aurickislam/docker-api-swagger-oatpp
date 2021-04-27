@@ -70,6 +70,7 @@ void run(const oatpp::base::CommandLineArguments& args) {
   catch(const std::exception& e)
   {
     std::cerr << e.what() << '\n';
+    std::cerr << "Shutting down the application\n";
     exit(1);
   }
 
