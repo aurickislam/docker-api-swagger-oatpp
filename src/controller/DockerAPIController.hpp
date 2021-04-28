@@ -3,7 +3,7 @@
 #define docker_api_swagger_DockerAPIController_hpp
 
 #include "dto/DTOs.hpp"
-#include "utils/StatusUtils.hpp"
+#include "utils/HttpStatusUtils.hpp"
 // #include "utils/JSONUtils.hpp"
 
 #include "oatpp/web/server/api/ApiController.hpp"
@@ -73,7 +73,7 @@ public:
 			const String &responseBody = response->readBodyToString();
 			// OATPP_LOGD(TAG, " responseBody: %s", responseBody->c_str());
 
-			return createJSONResponse(utils::StatusUtils::getStatus(response->getStatusCode()), responseHeader, responseBody);
+			return createJSONResponse(utils::HttpStatusUtils::getStatus(response->getStatusCode()), responseHeader, responseBody);
 		}
 		catch (const std::exception &e)
 		{
@@ -95,7 +95,7 @@ public:
 
 			const auto &responseHeader = response->getHeaders();
 
-			return createJSONResponse(utils::StatusUtils::getStatus(response->getStatusCode()), responseHeader, "");
+			return createJSONResponse(utils::HttpStatusUtils::getStatus(response->getStatusCode()), responseHeader, "");
 		}
 		catch (const std::exception &e)
 		{
@@ -120,7 +120,7 @@ public:
 			const String &responseBody = response->readBodyToString();
 			// OATPP_LOGD(TAG, "responseBody: %s", responseBody->c_str());
 
-			return createJSONResponse(utils::StatusUtils::getStatus(response->getStatusCode()), responseHeader, responseBody);
+			return createJSONResponse(utils::HttpStatusUtils::getStatus(response->getStatusCode()), responseHeader, responseBody);
 		}
 		catch (const std::exception &e)
 		{
@@ -151,7 +151,7 @@ public:
 			const String &responseBody = response->readBodyToString();
 			// OATPP_LOGD(TAG, " responseBody: %s", responseBody->c_str());
 
-			return createJSONResponse(utils::StatusUtils::getStatus(response->getStatusCode()), responseHeader, responseBody);
+			return createJSONResponse(utils::HttpStatusUtils::getStatus(response->getStatusCode()), responseHeader, responseBody);
 		}
 		catch (const std::exception &e)
 		{
@@ -182,7 +182,7 @@ public:
 			const String &responseBody = response->readBodyToString();
 			// OATPP_LOGD(TAG, " response: %s", responseBody->c_str());
 
-			return createJSONResponse(utils::StatusUtils::getStatus(response->getStatusCode()), responseHeader, responseBody);
+			return createJSONResponse(utils::HttpStatusUtils::getStatus(response->getStatusCode()), responseHeader, responseBody);
 		}
 		catch (const std::exception &e)
 		{
