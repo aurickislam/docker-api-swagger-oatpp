@@ -1,4 +1,6 @@
 
+#include <iostream>
+
 #include "controller/DockerAPIController.hpp"
 #include "controller/SwaggerController.hpp"
 #include "./AppComponent.hpp"
@@ -6,7 +8,6 @@
 
 #include "oatpp/network/Server.hpp"
 
-#include <iostream>
 #include <bits/stdc++.h>
 
 void run(const oatpp::base::CommandLineArguments &args)

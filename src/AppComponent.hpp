@@ -20,8 +20,6 @@
 #include "oatpp/core/base/CommandLineArguments.hpp"
 #include "oatpp/core/macro/component.hpp"
 
-#include <iostream>
-
 /**
  *  Class which creates and holds Application components and registers components in oatpp::base::Environment
  *  Order of components initialization is from top to bottom
