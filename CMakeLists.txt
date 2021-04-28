@@ -13,7 +13,7 @@ add_library(${project_name}-lib
         src/controller/SwaggerController.hpp
         src/dto/DTOs.hpp
         src/utils/JSONUtils.hpp
-        src/utils/StatusUtils.hpp
+        src/utils/HttpStatusUtils.hpp
         src/swagger/Resources.cpp
         src/swagger/Resources.hpp
         src/swagger/Types.cpp
