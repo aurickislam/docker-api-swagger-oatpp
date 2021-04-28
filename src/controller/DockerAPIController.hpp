@@ -18,212 +18,215 @@
 class DockerAPIController : public oatpp::web::server::api::ApiController
 {
 private:
-    constexpr static const char* TAG = "DockerAPIController";
-    // OATPP_COMPONENT(std::shared_ptr<utils::JSONUtils>, jsonUtils);
-    OATPP_COMPONENT(std::shared_ptr<oatpp::web::client::HttpRequestExecutor>, requestExecutor);
+	constexpr static const char *TAG = "DockerAPIController";
+	// OATPP_COMPONENT(std::shared_ptr<utils::JSONUtils>, jsonUtils);
+	OATPP_COMPONENT(std::shared_ptr<oatpp::web::client::HttpRequestExecutor>, requestExecutor);
 
 private:
-    std::shared_ptr<OutgoingResponse> createErroeResponse(const Status& status, const String& message)
-    {
-        const auto& dto = ErrorResponseDto::createShared();
-        dto->statusCode = status.code;
-        dto->error = status.description;
-        dto->message = message;
-        return createDtoResponse(status, dto);
-    }
+	std::shared_ptr<OutgoingResponse> createErroeResponse(const Status &status, const String &message)
+	{
+		const auto &dto = ErrorResponseDto::createShared();
+		dto->statusCode = status.code;
+		dto->error = status.description;
+		dto->message = message;
+		return createDtoResponse(status, dto);
+	}
 
-    std::shared_ptr<OutgoingResponse> createJSONResponse(const Status& status, const oatpp::web::protocol::http::Headers& responseHeader, const String& json)
-    {
-        auto response = createResponse(status, json);
-        for(auto& head : responseHeader.getAll()) {
-            // OATPP_LOGD(TAG, " header: %s = %s", head.first.std_str().c_str(), head.second.getData());
-            if (head.first.std_str() != Header::TRANSFER_ENCODING)
-                response->putHeader(head.first.std_str().c_str(), head.second.std_str().c_str());
-        }
-        return response;
-    }
-
-public:
-    DockerAPIController(const std::shared_ptr<ObjectMapper> &objectMapper)
-     : oatpp::web::server::api::ApiController(objectMapper)
-    {}
+	std::shared_ptr<OutgoingResponse> createJSONResponse(const Status &status, const oatpp::web::protocol::http::Headers &responseHeader, const String &json)
+	{
+		auto response = createResponse(status, json);
+		for (auto &head : responseHeader.getAll())
+		{
+			// OATPP_LOGD(TAG, " header: %s = %s", head.first.std_str().c_str(), head.second.getData());
+			if (head.first.std_str() != Header::TRANSFER_ENCODING)
+				response->putHeader(head.first.std_str().c_str(), head.second.std_str().c_str());
+		}
+		return response;
+	}
 
 public:
-    static std::shared_ptr<DockerAPIController> createShared(OATPP_COMPONENT(std::shared_ptr<ObjectMapper>, objectMapper))
-    {
-        return std::make_shared<DockerAPIController>(objectMapper);
-    }
+	DockerAPIController(const std::shared_ptr<ObjectMapper> &objectMapper)
+		: oatpp::web::server::api::ApiController(objectMapper)
+	{
+	}
 
-    ENDPOINT("GET", "*", dockerGet, REQUEST(std::shared_ptr<IncomingRequest>, request))
-    {
-        OATPP_LOGI(TAG, " GET: /%s", request->getPathTail()->getData());
+public:
+	static std::shared_ptr<DockerAPIController> createShared(OATPP_COMPONENT(std::shared_ptr<ObjectMapper>, objectMapper))
+	{
+		return std::make_shared<DockerAPIController>(objectMapper);
+	}
 
-        // const oatpp::web::protocol::http::Headers& requestHeader = request->getHeaders();
-        const auto& requestHeader = request->getHeaders();
+	ENDPOINT("GET", "*", dockerGet, REQUEST(std::shared_ptr<IncomingRequest>, request))
+	{
+		OATPP_LOGI(TAG, " GET: /%s", request->getPathTail()->getData());
 
-        try
-        {
-            const auto& response = requestExecutor->executeOnce("GET", request->getPathTail(), requestHeader, nullptr, requestExecutor->getConnection());
-            
-            // const oatpp::web::protocol::http::Headers& responseHeader = response->getHeaders();
-            const auto& responseHeader = response->getHeaders();
-            
-            const String& responseBody = response->readBodyToString();
-            // OATPP_LOGD(TAG, " responseBody: %s", responseBody->c_str());
-            
-            return createJSONResponse(utils::StatusUtils::getStatus(response->getStatusCode()), responseHeader, responseBody);
-        }
-        catch(const std::exception& e)
-        {
-            // std::cerr << e.what() << '\n';
-            OATPP_LOGE("TAG", " err: %s", e.what());
-            return createErroeResponse(Status::CODE_500, e.what());
-        }
-    }
+		// const oatpp::web::protocol::http::Headers& requestHeader = request->getHeaders();
+		const auto &requestHeader = request->getHeaders();
 
-    ENDPOINT("HEAD", "*", dockerHead, REQUEST(std::shared_ptr<IncomingRequest>, request))
-    {
-        OATPP_LOGI(TAG, " HEAD: /%s", request->getPathTail()->getData());
-        
-        const auto& requestHeader = request->getHeaders();
-        
-        try
-        {
-            const auto& response = requestExecutor->executeOnce("HEAD", request->getPathTail(), requestHeader, nullptr, requestExecutor->getConnection());
-            
-            const auto& responseHeader = response->getHeaders();
-            
-            return createJSONResponse(utils::StatusUtils::getStatus(response->getStatusCode()), responseHeader, "");
-        }
-        catch(const std::exception& e)
-        {
-            // std::cerr << e.what() << '\n';
-            OATPP_LOGE(TAG, " err: %s", e.what());
-            return createErroeResponse(Status::CODE_500, e.what());
-        }
-    }
+		try
+		{
+			const auto &response = requestExecutor->executeOnce("GET", request->getPathTail(), requestHeader, nullptr, requestExecutor->getConnection());
 
-    ENDPOINT("DELETE", "*", dockerDelete, REQUEST(std::shared_ptr<IncomingRequest>, request))
-    {
-        OATPP_LOGI(TAG, " DELETE: /%s", request->getPathTail()->getData());
+			// const oatpp::web::protocol::http::Headers& responseHeader = response->getHeaders();
+			const auto &responseHeader = response->getHeaders();
 
-        const auto& requestHeader = request->getHeaders();
+			const String &responseBody = response->readBodyToString();
+			// OATPP_LOGD(TAG, " responseBody: %s", responseBody->c_str());
 
-        try
-        {
-            const auto& response = requestExecutor->executeOnce("DELETE", request->getPathTail(), requestHeader, nullptr, requestExecutor->getConnection());
-            
-            const auto& responseHeader = response->getHeaders();
-            
-            const String& responseBody = response->readBodyToString();
-            // OATPP_LOGD(TAG, "responseBody: %s", responseBody->c_str());
-            
-            return createJSONResponse(utils::StatusUtils::getStatus(response->getStatusCode()), responseHeader, responseBody);
-        }
-        catch(const std::exception& e)
-        {
-            // std::cerr << e.what() << '\n';
-            OATPP_LOGE(TAG, " err: %s", e.what());
-            return createErroeResponse(Status::CODE_500, e.what());
-        }
-    }
+			return createJSONResponse(utils::StatusUtils::getStatus(response->getStatusCode()), responseHeader, responseBody);
+		}
+		catch (const std::exception &e)
+		{
+			// std::cerr << e.what() << '\n';
+			OATPP_LOGE("TAG", " err: %s", e.what());
+			return createErroeResponse(Status::CODE_500, e.what());
+		}
+	}
 
-    ENDPOINT("POST", "*", dockerPost, REQUEST(std::shared_ptr<IncomingRequest>, request))
-    {
-        OATPP_LOGI(TAG, " POST: /%s", request->getPathTail()->getData());
-        
-        const auto& requestHeader = request->getHeaders();
+	ENDPOINT("HEAD", "*", dockerHead, REQUEST(std::shared_ptr<IncomingRequest>, request))
+	{
+		OATPP_LOGI(TAG, " HEAD: /%s", request->getPathTail()->getData());
 
-        const String& requestBody = request->readBodyToString();
-        // OATPP_LOGD(TAG, " requestBody: %s", requestBody->c_str());
-        
-        const auto& body = oatpp::web::protocol::http::outgoing::BufferBody::createShared(requestBody, oatpp::data::share::StringKeyLabel("application/json"));
+		const auto &requestHeader = request->getHeaders();
 
-        try
-        {
-            auto response = requestExecutor->executeOnce("POST", request->getPathTail(), requestHeader, body, requestExecutor->getConnection());
-            // OATPP_LOGD(TAG, " responseStatus: %d", response->getStatusCode());
-            
-            const auto& responseHeader = response->getHeaders();
-            
-            const String& responseBody = response->readBodyToString();
-            // OATPP_LOGD(TAG, " responseBody: %s", responseBody->c_str());
-            
-            return createJSONResponse(utils::StatusUtils::getStatus(response->getStatusCode()), responseHeader, responseBody);
-        }
-        catch(const std::exception& e)
-        {
-            // std::cerr << e.what() << '\n';
-            OATPP_LOGE(TAG, " err: %s", e.what());
-            return createErroeResponse(Status::CODE_500, e.what());
-        }
-    }
+		try
+		{
+			const auto &response = requestExecutor->executeOnce("HEAD", request->getPathTail(), requestHeader, nullptr, requestExecutor->getConnection());
 
-    ENDPOINT("PUT", "*", dockerPut, REQUEST(std::shared_ptr<IncomingRequest>, request))
-    {
-        OATPP_LOGI(TAG, " PUT /%s", request->getPathTail()->getData());
+			const auto &responseHeader = response->getHeaders();
 
-        const auto& requestHeader = request->getHeaders();
+			return createJSONResponse(utils::StatusUtils::getStatus(response->getStatusCode()), responseHeader, "");
+		}
+		catch (const std::exception &e)
+		{
+			// std::cerr << e.what() << '\n';
+			OATPP_LOGE(TAG, " err: %s", e.what());
+			return createErroeResponse(Status::CODE_500, e.what());
+		}
+	}
 
-        const String& requestBody = request->readBodyToString();
-        // OATPP_LOGD(TAG, " requestBody: %s", requestBody->c_str());
+	ENDPOINT("DELETE", "*", dockerDelete, REQUEST(std::shared_ptr<IncomingRequest>, request))
+	{
+		OATPP_LOGI(TAG, " DELETE: /%s", request->getPathTail()->getData());
 
-        const auto& body = oatpp::web::protocol::http::outgoing::BufferBody::createShared(requestBody, oatpp::data::share::StringKeyLabel("application/json"));
-        
-        try
-        {
-            const auto& response = requestExecutor->executeOnce("PUT", request->getPathTail(), requestHeader, body, requestExecutor->getConnection());
-            // OATPP_LOGD(TAG, " responseStatus: %d", response->getStatusCode());
-            
-            const auto& responseHeader = response->getHeaders();
-            
-            const String& responseBody = response->readBodyToString();
-            // OATPP_LOGD(TAG, " response: %s", responseBody->c_str());
-            
-            return createJSONResponse(utils::StatusUtils::getStatus(response->getStatusCode()), responseHeader, responseBody);
-        }
-        catch(const std::exception& e)
-        {
-            // std::cerr << e.what() << '\n';
-            OATPP_LOGE(TAG, " err: %s", e.what());
-            return createErroeResponse(Status::CODE_500, e.what());
-        }
-    }
+		const auto &requestHeader = request->getHeaders();
 
-    /*ENDPOINT("GET", "*", dockerGet, REQUEST(std::shared_ptr<IncomingRequest>, request))
-    {
-        OATPP_LOGD("GET", " dockerGet");
+		try
+		{
+			const auto &response = requestExecutor->executeOnce("DELETE", request->getPathTail(), requestHeader, nullptr, requestExecutor->getConnection());
 
-        const oatpp::web::protocol::http::Headers& header = request->getHeaders();
-        OATPP_LOGD("head", " user-agent='%s'\n", request->getHeader("user-agent")->getData());
-        for(auto& head : header.getAll()) {
-            OATPP_LOGD("head", " %s = %s", head.first.getData(), head.second.getData());
-        }
-        OATPP_LOGD("head", "\n");
+			const auto &responseHeader = response->getHeaders();
 
-        // const oatpp::web::url::mapping::Pattern::MatchMap& pathVariables = request->getPathVariables();
-        // OATPP_LOGD(TAG, " getTail: %s", pathVariables.getTail()->getData());
-        OATPP_LOGD(TAG, " getPathTail: %s\n", request->getPathTail()->getData());
+			const String &responseBody = response->readBodyToString();
+			// OATPP_LOGD(TAG, "responseBody: %s", responseBody->c_str());
 
+			return createJSONResponse(utils::StatusUtils::getStatus(response->getStatusCode()), responseHeader, responseBody);
+		}
+		catch (const std::exception &e)
+		{
+			// std::cerr << e.what() << '\n';
+			OATPP_LOGE(TAG, " err: %s", e.what());
+			return createErroeResponse(Status::CODE_500, e.what());
+		}
+	}
 
-        const QueryParams& queryParams = request->getQueryParameters();
-        OATPP_LOGD("queryParams", " size: %d\n", queryParams.getSize());
-        string newQuery = "?";
-        for(auto& param : queryParams.getAll()) {
-            OATPP_LOGD("queryParams", " %s = %s", param.first.getData(), param.second.getData());
-            newQuery += param.first.std_str() + "=" + param.second.std_str() + "&";
-            // newQuery = newQuery.append(param.first.std_str()).append("=").append(param.second.std_str()).append("&");
-        }
-        newQuery = newQuery.substr(0, newQuery.size() - 1);
-        OATPP_LOGD("newQuery", " %s", newQuery.c_str());
+	ENDPOINT("POST", "*", dockerPost, REQUEST(std::shared_ptr<IncomingRequest>, request))
+	{
+		OATPP_LOGI(TAG, " POST: /%s", request->getPathTail()->getData());
 
-        auto data = dockerAPIClient->getInfo()->readBodyToString();
-        // OATPP_LOGD("getInfo", "[doGet] data='%s'", data->c_str());
+		const auto &requestHeader = request->getHeaders();
 
-        auto response = createResponse(Status::CODE_200, data);
-        response->putHeader(Header::CONTENT_TYPE, "application/json");
-        return response;
-    }*/
+		const String &requestBody = request->readBodyToString();
+		// OATPP_LOGD(TAG, " requestBody: %s", requestBody->c_str());
+
+		const auto &body = oatpp::web::protocol::http::outgoing::BufferBody::createShared(requestBody, oatpp::data::share::StringKeyLabel("application/json"));
+
+		try
+		{
+			auto response = requestExecutor->executeOnce("POST", request->getPathTail(), requestHeader, body, requestExecutor->getConnection());
+			// OATPP_LOGD(TAG, " responseStatus: %d", response->getStatusCode());
+
+			const auto &responseHeader = response->getHeaders();
+
+			const String &responseBody = response->readBodyToString();
+			// OATPP_LOGD(TAG, " responseBody: %s", responseBody->c_str());
+
+			return createJSONResponse(utils::StatusUtils::getStatus(response->getStatusCode()), responseHeader, responseBody);
+		}
+		catch (const std::exception &e)
+		{
+			// std::cerr << e.what() << '\n';
+			OATPP_LOGE(TAG, " err: %s", e.what());
+			return createErroeResponse(Status::CODE_500, e.what());
+		}
+	}
+
+	ENDPOINT("PUT", "*", dockerPut, REQUEST(std::shared_ptr<IncomingRequest>, request))
+	{
+		OATPP_LOGI(TAG, " PUT /%s", request->getPathTail()->getData());
+
+		const auto &requestHeader = request->getHeaders();
+
+		const String &requestBody = request->readBodyToString();
+		// OATPP_LOGD(TAG, " requestBody: %s", requestBody->c_str());
+
+		const auto &body = oatpp::web::protocol::http::outgoing::BufferBody::createShared(requestBody, oatpp::data::share::StringKeyLabel("application/json"));
+
+		try
+		{
+			const auto &response = requestExecutor->executeOnce("PUT", request->getPathTail(), requestHeader, body, requestExecutor->getConnection());
+			// OATPP_LOGD(TAG, " responseStatus: %d", response->getStatusCode());
+
+			const auto &responseHeader = response->getHeaders();
+
+			const String &responseBody = response->readBodyToString();
+			// OATPP_LOGD(TAG, " response: %s", responseBody->c_str());
+
+			return createJSONResponse(utils::StatusUtils::getStatus(response->getStatusCode()), responseHeader, responseBody);
+		}
+		catch (const std::exception &e)
+		{
+			// std::cerr << e.what() << '\n';
+			OATPP_LOGE(TAG, " err: %s", e.what());
+			return createErroeResponse(Status::CODE_500, e.what());
+		}
+	}
+
+	/*ENDPOINT("GET", "*", dockerGet, REQUEST(std::shared_ptr<IncomingRequest>, request))
+	{
+		OATPP_LOGD("GET", " dockerGet");
+
+		const oatpp::web::protocol::http::Headers &header = request->getHeaders();
+		OATPP_LOGD("head", " user-agent='%s'\n", request->getHeader("user-agent")->getData());
+		for (auto &head : header.getAll())
+		{
+			OATPP_LOGD("head", " %s = %s", head.first.getData(), head.second.getData());
+		}
+		OATPP_LOGD("head", "\n");
+
+		// const oatpp::web::url::mapping::Pattern::MatchMap& pathVariables = request->getPathVariables();
+		// OATPP_LOGD(TAG, " getTail: %s", pathVariables.getTail()->getData());
+		OATPP_LOGD(TAG, " getPathTail: %s\n", request->getPathTail()->getData());
+
+		const QueryParams &queryParams = request->getQueryParameters();
+		OATPP_LOGD("queryParams", " size: %d\n", queryParams.getSize());
+		string newQuery = "?";
+		for (auto &param : queryParams.getAll())
+		{
+			OATPP_LOGD("queryParams", " %s = %s", param.first.getData(), param.second.getData());
+			newQuery += param.first.std_str() + "=" + param.second.std_str() + "&";
+			// newQuery = newQuery.append(param.first.std_str()).append("=").append(param.second.std_str()).append("&");
+		}
+		newQuery = newQuery.substr(0, newQuery.size() - 1);
+		OATPP_LOGD("newQuery", " %s", newQuery.c_str());
+
+		auto data = dockerAPIClient->getInfo()->readBodyToString();
+		// OATPP_LOGD("getInfo", "[doGet] data='%s'", data->c_str());
+
+		auto response = createResponse(Status::CODE_200, data);
+		response->putHeader(Header::CONTENT_TYPE, "application/json");
+		return response;
+	}*/
 };
 
 #include OATPP_CODEGEN_END(ApiController)
