@@ -68,7 +68,7 @@ void run(const oatpp::base::CommandLineArguments &args)
 	}
 	catch (const std::exception &e)
 	{
-		std::cerr << e.what() << '\n';
+		std::cerr << e.what() << "\n\n";
 		std::cerr << "Shutting down the application\n";
 		exit(1);
 	}
@@ -94,7 +94,6 @@ void run(const oatpp::base::CommandLineArguments &args)
 	std::cout << "Server is running at port: " << components.serverConnectionProvider.getObject()->getProperty("port").toString()->c_str();
 	std::cout << "\n===============================\n\n";
 	OATPP_LOGI("App", " Server started!\n");
-	// OATPP_LOGD("Server", "Running on port %s...", components.serverConnectionProvider.getObject()->getProperty("port").toString()->c_str());
 
 	server.run();
 }

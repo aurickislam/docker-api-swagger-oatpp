@@ -79,9 +79,9 @@ public:
 	/**
 	 *  Create JSONUtils component to serialize/deserialize DTOs
 	 */
-	OATPP_CREATE_COMPONENT(std::shared_ptr<utils::JSONUtils>, jsonUtils)
+	OATPP_CREATE_COMPONENT(std::shared_ptr<JSONUtils>, jsonUtils)
 	([] {
-		return std::make_shared<utils::JSONUtils>();
+		return std::make_shared<JSONUtils>();
 	}());
 
 	/**
@@ -96,7 +96,6 @@ public:
 		std::cout << "DOCKER_SERVER_PORT: " << port << "\n";
 
 		const auto &connectionProvider = oatpp::network::tcp::client::ConnectionProvider::createShared({ip, port});
-		// auto connectionProvider = oatpp::network::tcp::client::ConnectionProvider::createShared({"192.168.88.2", 8083});
 
 		return oatpp::web::client::HttpRequestExecutor::createShared(connectionProvider);
 	}());
