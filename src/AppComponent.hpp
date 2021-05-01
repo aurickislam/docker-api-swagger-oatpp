@@ -92,7 +92,9 @@ public:
 		const oatpp::String &ip = std::getenv("DOCKER_SERVER_IP");
 		std::cout << "\nDOCKER_SERVER_IP: " << ip->std_str() << "\n";
 
-		const unsigned short port = atoi(std::getenv("DOCKER_SERVER_PORT"));
+		unsigned short port = 2375;
+		if (std::getenv("DOCKER_SERVER_PORT"))
+			port = atoi(std::getenv("DOCKER_SERVER_PORT"));
 		std::cout << "DOCKER_SERVER_PORT: " << port << "\n";
 
 		const auto &connectionProvider = oatpp::network::tcp::client::ConnectionProvider::createShared({ip, port});

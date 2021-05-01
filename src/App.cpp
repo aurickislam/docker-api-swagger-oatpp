@@ -109,12 +109,6 @@ int main(int argc, const char *argv[])
 		return 1;
 	}
 
-	if (!std::getenv("DOCKER_SERVER_PORT"))
-	{
-		std::cerr << "'DOCKER_SERVER_PORT' is not provided through environment veriable\n";
-		return 1;
-	}
-
 	oatpp::base::Environment::init();
 
 	run(oatpp::base::CommandLineArguments(argc, argv));

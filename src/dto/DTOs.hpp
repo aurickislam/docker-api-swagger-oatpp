@@ -1,6 +1,6 @@
 
-#ifndef example_oatpp_mongo_DTOs_hpp
-#define example_oatpp_mongo_DTOs_hpp
+#ifndef docker_api_swagger_DTOs_hpp
+#define docker_api_swagger_DTOs_hpp
 
 #include "oatpp/core/Types.hpp"
 #include "oatpp/core/macro/codegen.hpp"
@@ -57,17 +57,6 @@ class DockerVersion : public oatpp::DTO
 	DTO_FIELD(String, Arch);
 };
 
-class HttpBinResponseDto : public oatpp::DTO
-{
-	DTO_INIT(HttpBinResponseDto, DTO);
-
-	DTO_FIELD(String, data);
-	DTO_FIELD(Fields<String>::ObjectWrapper, headers);
-	DTO_FIELD(String, method);
-	DTO_FIELD(String, origin);
-	DTO_FIELD(String, url);
-};
-
 #include OATPP_CODEGEN_END(DTO)
 
-#endif /* example_oatpp_mongo_DTOs_hpp */
+#endif /* docker_api_swagger_DTOs_hpp */
