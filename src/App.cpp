@@ -7,8 +7,11 @@
 #include "dto/DTOs.hpp"
 
 #include "oatpp/network/Server.hpp"
+#include "oatpp/web/protocol/http/Http.hpp"
 
 #include <bits/stdc++.h>
+
+typedef oatpp::web::protocol::http::Status Status;
 
 void run(const oatpp::base::CommandLineArguments &args)
 {
@@ -22,8 +25,7 @@ void run(const oatpp::base::CommandLineArguments &args)
 		const auto &headers = oatpp::web::protocol::http::Headers();
 
 		const auto &infoResponse = requestExecutor->executeOnce("GET", "info", headers, nullptr, requestExecutor->getConnection());
-
-		if (infoResponse->getStatusCode() == 200)
+		if (infoResponse->getStatusCode() == Status::CODE_200.code)
 		{
 			const auto &apiObjectMapper = components.apiObjectMapper.getObject();
 
@@ -33,8 +35,9 @@ void run(const oatpp::base::CommandLineArguments &args)
       		std::cout << Name->type << "\n";*/
 			const auto &info = apiObjectMapper->readFromString<oatpp::Object<DockerInfo>>(infoResponseBody);
 
+
 			const auto &versionResponse = requestExecutor->executeOnce("GET", "version", headers, nullptr, requestExecutor->getConnection());
-			if (versionResponse->getStatusCode() == 200)
+			if (versionResponse->getStatusCode() == Status::CODE_200.code)
 			{
 				const auto &versionResponseBody = versionResponse->readBodyToString();
 
@@ -69,7 +72,7 @@ void run(const oatpp::base::CommandLineArguments &args)
 	catch (const std::exception &e)
 	{
 		std::cerr << e.what() << "\n\n";
-		std::cerr << "Shutting down the application\n";
+		std::cout << "Shutting down the application\n";
 		exit(1);
 	}
 

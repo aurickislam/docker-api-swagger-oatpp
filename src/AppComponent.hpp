@@ -2,7 +2,7 @@
 #ifndef docker_api_swagger_AppComponent_hpp
 #define docker_api_swagger_AppComponent_hpp
 
-#include "utils/JSONUtils.hpp"
+// #include "utils/JSONUtils.hpp"
 #include "SwaggerComponent.hpp"
 
 #include "oatpp-curl/RequestExecutor.hpp"
@@ -79,10 +79,10 @@ public:
 	/**
 	 *  Create JSONUtils component to serialize/deserialize DTOs
 	 */
-	OATPP_CREATE_COMPONENT(std::shared_ptr<JSONUtils>, jsonUtils)
+	/*OATPP_CREATE_COMPONENT(std::shared_ptr<JSONUtils>, jsonUtils)
 	([] {
 		return std::make_shared<JSONUtils>();
-	}());
+	}());*/
 
 	/**
 	 *  Create DockerAPIClient component to make API calls

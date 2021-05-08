@@ -4,7 +4,6 @@
 
 #include "dto/DTOs.hpp"
 #include "utils/HttpStatusUtils.hpp"
-// #include "utils/JSONUtils.hpp"
 
 #include "oatpp/web/server/api/ApiController.hpp"
 #include "oatpp/web/protocol/http/outgoing/BufferBody.hpp"
@@ -12,6 +11,9 @@
 
 #include "oatpp/core/macro/codegen.hpp"
 #include "oatpp/core/macro/component.hpp"
+
+typedef oatpp::web::protocol::http::outgoing::BufferBody BufferBody;
+typedef oatpp::data::share::StringKeyLabel StringKeyLabel;
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
@@ -134,7 +136,7 @@ public:
 
 		const String &requestBody = request->readBodyToString();
 
-		const auto &body = oatpp::web::protocol::http::outgoing::BufferBody::createShared(requestBody, oatpp::data::share::StringKeyLabel("application/json"));
+		const auto &body = BufferBody::createShared(requestBody, StringKeyLabel("application/json"));
 
 		try
 		{
@@ -161,7 +163,7 @@ public:
 
 		const String &requestBody = request->readBodyToString();
 
-		const auto &body = oatpp::web::protocol::http::outgoing::BufferBody::createShared(requestBody, oatpp::data::share::StringKeyLabel("application/json"));
+		const auto &body = BufferBody::createShared(requestBody, StringKeyLabel("application/json"));
 
 		try
 		{

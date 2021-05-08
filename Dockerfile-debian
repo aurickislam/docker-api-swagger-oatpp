@@ -1,6 +1,6 @@
 FROM debian:buster-slim as build
 
-RUN apt update && apt upgrade -y && apt install -y git make cmake build-essential libcurl4-openssl-dev pkg-config
+RUN apt update && apt upgrade -y && apt install -y git cmake build-essential libcurl4-openssl-dev pkg-config
 
 COPY ./utility /app/utility
 
@@ -12,7 +12,7 @@ COPY ./ /app/
 
 WORKDIR /app/build
 
-RUN cmake ..
+RUN cmake -DCMAKE_BUILD_TYPE=Release ..
 RUN make -j $(nproc)
 
 

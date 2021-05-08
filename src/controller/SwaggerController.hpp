@@ -13,6 +13,8 @@
 #include "oatpp/core/macro/codegen.hpp"
 #include "oatpp/core/macro/component.hpp"
 
+typedef oatpp::web::protocol::http::outgoing::StreamingBody StreamingBody;
+
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
 class SwaggerController : public oatpp::web::server::api::ApiController
@@ -26,7 +28,7 @@ private:
 	{
 		if (m_resources->isStreaming())
 		{
-			auto body = std::make_shared<oatpp::web::protocol::http::outgoing::StreamingBody>(m_resources->getResourceStream(filename->c_str()));
+			auto body = std::make_shared<StreamingBody>(m_resources->getResourceStream(filename->c_str()));
 			return OutgoingResponse::createShared(Status::CODE_200, body);
 		}
 		return createResponse(Status::CODE_200, m_resources->getResource(filename->c_str()));

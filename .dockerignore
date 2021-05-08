@@ -6,4 +6,5 @@ build
 Dockerfile
 Dockerfile-debian
 docker-compose.yaml
+docker-compose-debian.yaml
 run.sh

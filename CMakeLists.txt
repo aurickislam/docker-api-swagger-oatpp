@@ -12,7 +12,7 @@ add_library(${project_name}-lib
         src/controller/DockerAPIController.hpp
         src/controller/SwaggerController.hpp
         src/dto/DTOs.hpp
-        src/utils/JSONUtils.hpp
+        # src/utils/JSONUtils.hpp
         src/utils/HttpStatusUtils.hpp
         src/swagger/Resources.cpp
         src/swagger/Resources.hpp
