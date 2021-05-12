@@ -20,8 +20,14 @@ BUILD_TYPE=$1
 MODULE_NAME=$2
 NPROC=$(nproc)
 
-if [ -z "$NPROC" ]; then
+if [ -z "$NPROC" ] || [ -z "$MAKE_PARALLEL_EXECUTION" ] || [ "$MAKE_PARALLEL_EXECUTION" = "OFF" ]
+then
     NPROC=1
+elif [ $NPROC > 2 ] || [ "$MAKE_PARALLEL_EXECUTION" = "ON" ]
+then
+    echo "MAKE_PARALLEL_EXECUTION"
+    echo $MAKE_PARALLEL_EXECUTION
+    NPROC="$(($NPROC-2))"
 fi
 
 echo "\n\nINSTALLING MODULE '$MODULE_NAME' ($BUILD_TYPE) using $NPROC threads ...\n\n"

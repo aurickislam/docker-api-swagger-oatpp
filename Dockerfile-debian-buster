@@ -2,13 +2,17 @@ FROM debian:buster-slim as build
 
 RUN apt update && apt upgrade -y && apt install -y git cmake build-essential libcurl4-openssl-dev pkg-config
 
+ARG MAKE_PARALLEL_EXECUTION
+ENV MAKE_PARALLEL_EXECUTION $MAKE_PARALLEL_EXECUTION
+
 COPY ./utility /app/utility
 
 WORKDIR /app/utility
 
 RUN bash install-oatpp-modules.sh Release
 
-COPY ./ /app/
+COPY ./src /app/src
+COPY ./CMakeLists.txt /app
 
 WORKDIR /app/build
 
@@ -22,8 +26,7 @@ RUN apt update && apt upgrade -y && apt install -y build-essential libcurl4-open
 
 COPY --from=build /app/build/docker-api-swagger /app/build/docker-api-swagger
 
-# COPY ./res /app/res
-COPY --from=build /app/res /app/res
+COPY ./res /app/res
 
 WORKDIR /app/build
 

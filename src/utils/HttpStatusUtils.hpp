@@ -7,6 +7,10 @@ typedef oatpp::web::protocol::http::Status Status;
 
 class HttpStatusUtils
 {
+private:
+	HttpStatusUtils()
+	{
+	}
 public:
 	const static Status getStatus(const int &code)
 	{

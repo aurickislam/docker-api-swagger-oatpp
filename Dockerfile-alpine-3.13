@@ -1,6 +1,9 @@
-FROM alpine:latest as build
+FROM alpine:3.13 as build
 
-RUN apk update && apk upgrade && apk add g++ git make cmake pkgconfig curl-dev
+RUN apk update && apk upgrade && apk --no-cache add g++ git make cmake pkgconfig curl-dev
+
+ARG MAKE_PARALLEL_EXECUTION
+ENV MAKE_PARALLEL_EXECUTION $MAKE_PARALLEL_EXECUTION
 
 COPY ./utility /app/utility
 
@@ -8,7 +11,8 @@ WORKDIR /app/utility
 
 RUN sh install-oatpp-modules.sh Release
 
-COPY ./ /app/
+COPY ./src /app/src
+COPY ./CMakeLists.txt /app
 
 WORKDIR /app/build
 
@@ -16,14 +20,13 @@ RUN cmake ..
 RUN make -j $(nproc)
 
 
-FROM alpine:latest
+FROM alpine:3.13
 
 RUN apk update && apk upgrade && apk add g++
 
 COPY --from=build /app/build/docker-api-swagger /app/build/docker-api-swagger
 
-# COPY ./res /app/res
-COPY --from=build /app/res /app/res
+COPY ./res /app/res
 
 WORKDIR /app/build
 

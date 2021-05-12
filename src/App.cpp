@@ -3,8 +3,9 @@
 
 #include "controller/DockerAPIController.hpp"
 #include "controller/SwaggerController.hpp"
-#include "./AppComponent.hpp"
+#include "AppComponent.hpp"
 #include "dto/DTOs.hpp"
+#include "utils/ColorUtils.hpp"
 
 #include "oatpp/network/Server.hpp"
 #include "oatpp/web/protocol/http/Http.hpp"
@@ -15,11 +16,13 @@ typedef oatpp::web::protocol::http::Status Status;
 
 void run(const oatpp::base::CommandLineArguments &args)
 {
+	// std::cout << "\033[31m" << "Error!" << "\033[0m" << std::endl;
+
 	AppComponent components(args);
 
 	const auto &requestExecutor = components.requestExecutor.getObject();
 
-	std::cout << "\n@trying to connect to DOCKER server\n\n";
+	std::cout << ColorUtils::cyan("\n@trying to connect to DOCKER server\n\n");
 	try
 	{
 		const auto &headers = oatpp::web::protocol::http::Headers();
@@ -43,29 +46,29 @@ void run(const oatpp::base::CommandLineArguments &args)
 
 				const auto &version = apiObjectMapper->readFromString<oatpp::Object<DockerVersion>>(versionResponseBody);
 
-				std::cout << "Server info:\n";
-				std::cout << "Name: " << info->Name->std_str() << "\n";
-				std::cout << "CPU core: " << info->NCPU << "\n";
+				std::cout << ColorUtils::green("Server info:\n");
+				std::cout << ColorUtils::blue("Name: ") << ColorUtils::red(info->Name->std_str()) << "\n";
+				std::cout << ColorUtils::blue("CPU core: ") << ColorUtils::red(std::to_string(info->NCPU)) << "\n";
 
 				if (std::to_string(info->MemTotal).length() > 9)
-					std::cout << "Memory: " << std::setprecision(3) << info->MemTotal / 1073753975.19 << " GB\n";
+					std::cout << ColorUtils::blue("Memory: ") << std::setprecision(3) << ColorUtils::RED << info->MemTotal / 1073753975.19 << " GB\n" << ColorUtils::RESET;
 				else
-					std::cout << "Memory: " << std::setprecision(0) << info->MemTotal / 1048584 << " MB\n";
+					std::cout << ColorUtils::blue("Memory: ") << std::setprecision(0) << ColorUtils::RED<< info->MemTotal / 1048584 << " MB\n" << ColorUtils::RESET;
 
-				std::cout << "Operating System: " << info->OperatingSystem->std_str() << "\n";
-				std::cout << "OS Version: " << info->OSVersion->std_str() << "\n";
-				std::cout << "OS Type: " << info->OSType->std_str() << "\n";
-				std::cout << "Kernel Version: " << info->KernelVersion->std_str() << "\n";
-				std::cout << "Architecture: " << info->Architecture->std_str() << "\n";
-				std::cout << "Arch: " << version->Arch->std_str() << "\n";
-				std::cout << "Images: " << info->Images << "\n";
-				std::cout << "Containers: " << info->Containers << "\n";
-				std::cout << "Containers Running: " << info->ContainersRunning << "\n";
+				std::cout << ColorUtils::blue("Operating System: ") << ColorUtils::red(info->OperatingSystem->std_str()) << "\n";
+				std::cout << ColorUtils::blue("OS Version: ") << ColorUtils::red(info->OSVersion->std_str()) << "\n";
+				std::cout << ColorUtils::blue("OS Type: ") << ColorUtils::red(info->OSType->std_str()) << "\n";
+				std::cout << ColorUtils::blue("Kernel Version: ") << ColorUtils::red(info->KernelVersion->std_str()) << "\n";
+				std::cout << ColorUtils::blue("Architecture: ") << ColorUtils::red(info->Architecture->std_str()) << "\n";
+				std::cout << ColorUtils::blue("Arch: ") << ColorUtils::red(version->Arch->std_str()) << "\n";
+				std::cout << ColorUtils::blue("Images: ") << ColorUtils::red(std::to_string(info->Images)) << "\n";
+				std::cout << ColorUtils::blue("Containers: ") << ColorUtils::red(std::to_string(info->Containers)) << "\n";
+				std::cout << ColorUtils::blue("Containers Running: ") << ColorUtils::red(std::to_string(info->ContainersRunning)) << "\n";
 
-				std::cout << "\nDocker info:\n";
-				std::cout << "Docker Version: " << version->Version->std_str() << "\n";
-				std::cout << "Api Version: " << version->ApiVersion->std_str() << "\n";
-				std::cout << "Min API Version: " << version->MinAPIVersion->std_str() << "\n";
+				std::cout << ColorUtils::green("\nDocker info:\n");
+				std::cout << ColorUtils::blue("Docker Version: ") << ColorUtils::red(version->Version->std_str()) << "\n";
+				std::cout << ColorUtils::blue("Api Version: ") << ColorUtils::red(version->ApiVersion->std_str()) << "\n";
+				std::cout << ColorUtils::blue("Min API Version: ") << ColorUtils::red(version->MinAPIVersion->std_str()) << "\n";
 			}
 		}
 	}
@@ -93,9 +96,9 @@ void run(const oatpp::base::CommandLineArguments &args)
 	/* create server */
 	oatpp::network::Server server(components.serverConnectionProvider.getObject(), components.serverConnectionHandler.getObject());
 
-	std::cout << "\n===============================\n";
-	std::cout << "Server is running at port: " << components.serverConnectionProvider.getObject()->getProperty("port").toString()->c_str();
-	std::cout << "\n===============================\n\n";
+	std::cout << ColorUtils::magenta("\n===============================\n");
+	std::cout << ColorUtils::cyan("Server is running at port: ") << ColorUtils::red(components.serverConnectionProvider.getObject()->getProperty("port").toString()->c_str());
+	std::cout << ColorUtils::magenta("\n===============================\n\n");
 	OATPP_LOGI("App", " Server started!\n");
 
 	server.run();
@@ -108,7 +111,7 @@ int main(int argc, const char *argv[])
 {
 	if (!std::getenv("DOCKER_SERVER_IP"))
 	{
-		std::cerr << "'DOCKER_SERVER_IP' is not provided through environment veriable\n";
+		std::cerr << ColorUtils::RED << "'DOCKER_SERVER_IP' is not provided through environment variable\n" << ColorUtils::RESET;
 		return 1;
 	}
 

@@ -3,6 +3,7 @@
 #define docker_api_swagger_AppComponent_hpp
 
 // #include "utils/JSONUtils.hpp"
+#include "utils/ColorUtils.hpp"
 #include "SwaggerComponent.hpp"
 
 #include "oatpp-curl/RequestExecutor.hpp"
@@ -28,6 +29,7 @@ class AppComponent
 {
 private:
 	constexpr static const char *TAG = "AppComponent";
+	
 	oatpp::base::CommandLineArguments m_cmdArgs;
 	/**
 	 *  Swagger component
@@ -90,12 +92,12 @@ public:
 	OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::web::client::HttpRequestExecutor>, requestExecutor)
 	([] {
 		const oatpp::String &ip = std::getenv("DOCKER_SERVER_IP");
-		std::cout << "\nDOCKER_SERVER_IP: " << ip->std_str() << "\n";
+		std::cout << ColorUtils::green("\nDOCKER_SERVER_IP: ") << ColorUtils::blue(ip->std_str()) << "\n";
 
 		unsigned short port = 2375;
 		if (std::getenv("DOCKER_SERVER_PORT"))
 			port = atoi(std::getenv("DOCKER_SERVER_PORT"));
-		std::cout << "DOCKER_SERVER_PORT: " << port << "\n";
+		std::cout << ColorUtils::red("DOCKER_SERVER_PORT: ") << ColorUtils::yellow(std::to_string(port)) << "\n";
 
 		const auto &connectionProvider = oatpp::network::tcp::client::ConnectionProvider::createShared({ip, port});
 
