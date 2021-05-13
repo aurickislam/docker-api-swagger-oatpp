@@ -31,8 +31,8 @@ namespace swagger
 			oatpp::data::stream::FileInputStream m_stream;
 
 		public:
-			ReadCallback(const oatpp::String &file);
-			oatpp::v_io_size read(void *buffer, v_buff_size count, oatpp::async::Action &action) override;
+			ReadCallback(const oatpp::String& file);
+			oatpp::v_io_size read(void *buffer, v_buff_size count, oatpp::async::Action& action) override;
 		};
 
 	public:
@@ -40,7 +40,7 @@ namespace swagger
 		 * Constructor.
 		 * @param resDir - directory containing swagger-ui resources.
 		 */
-		Resources(const oatpp::String &resDir, bool streaming = false);
+		Resources(const oatpp::String& resDir, bool streaming = false);
 
 	public:
 		/**
@@ -48,7 +48,7 @@ namespace swagger
 		 * @param resDir - directory containing swagger-ui resources.
 		 * @return - `std::shared_ptr` to Resources.
 		 */
-		static std::shared_ptr<Resources> loadResources(const oatpp::String &resDir)
+		static std::shared_ptr<Resources> loadResources(const oatpp::String& resDir)
 		{
 			auto res = std::make_shared<Resources>(resDir);
 
@@ -78,7 +78,7 @@ namespace swagger
 		 * @param resDir - directory containing swagger-ui resources.
 		 * @return - `std::shared_ptr` to Resources.
 		 */
-		static std::shared_ptr<Resources> streamResources(const oatpp::String &resDir)
+		static std::shared_ptr<Resources> streamResources(const oatpp::String& resDir)
 		{
 			auto res = std::make_shared<Resources>(resDir, true);
 
@@ -88,16 +88,16 @@ namespace swagger
 		/**
 		 * Get cached resource by filename.
 		 * @param filename - name of the resource file.
-		 * @return - &id:oatpp::String; containing resource binary data.
+		 * @return -& id:oatpp::String; containing resource binary data.
 		 */
-		oatpp::String getResource(const oatpp::String &filename);
+		oatpp::String getResource(const oatpp::String& filename);
 
 		/**
 		 * Get streamed resource by filename.
 		 * @param filename - name of the resource file.
-		 * @return - `std::shared_ptr` to &id:oatpp::data::stream::ReadCallback; containing resource binary data stream."
+		 * @return - `std::shared_ptr` to& id:oatpp::data::stream::ReadCallback; containing resource binary data stream."
 		 */
-		std::shared_ptr<ReadCallback> getResourceStream(const oatpp::String &filename);
+		std::shared_ptr<ReadCallback> getResourceStream(const oatpp::String& filename);
 
 		/**
 		 * Returns true if this is a streaming ressource instance.

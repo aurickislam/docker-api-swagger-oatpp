@@ -24,7 +24,7 @@ namespace swagger
 			 * Get type information.
 			 * @return - &id:oatpp::data::mapping::type::Type;.
 			 */
-			static oatpp::data::mapping::type::Type *getType()
+			static oatpp::data::mapping::type::Type* getType()
 			{
 				static oatpp::data::mapping::type::Type type(CLASS_ID, "binary");
 				return &type;

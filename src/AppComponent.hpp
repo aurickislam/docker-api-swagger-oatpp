@@ -28,8 +28,8 @@
 class AppComponent
 {
 private:
-	constexpr static const char *TAG = "AppComponent";
-	
+	constexpr static const char* TAG = "AppComponent";
+
 	oatpp::base::CommandLineArguments m_cmdArgs;
 	/**
 	 *  Swagger component
@@ -37,7 +37,7 @@ private:
 	SwaggerComponent swaggerComponent;
 
 public:
-	AppComponent(const oatpp::base::CommandLineArguments &cmdArgs) : m_cmdArgs(cmdArgs)
+	AppComponent(const oatpp::base::CommandLineArguments& cmdArgs) : m_cmdArgs(cmdArgs)
 	{
 	}
 
@@ -72,7 +72,7 @@ public:
 	 */
 	OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::data::mapping::ObjectMapper>, apiObjectMapper)
 	([] {
-		const auto &objectMapper = oatpp::parser::json::mapping::ObjectMapper::createShared();
+		const auto& objectMapper = oatpp::parser::json::mapping::ObjectMapper::createShared();
 		// objectMapper->getDeserializer()->getConfig()->allowUnknownFields = false;
 		objectMapper->getSerializer()->getConfig()->useBeautifier = true;
 		return objectMapper;
@@ -91,15 +91,18 @@ public:
 	 */
 	OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::web::client::HttpRequestExecutor>, requestExecutor)
 	([] {
-		const oatpp::String &ip = std::getenv("DOCKER_SERVER_IP");
-		std::cout << ColorUtils::green("\nDOCKER_SERVER_IP: ") << ColorUtils::blue(ip->std_str()) << "\n";
+		const oatpp::String& ip = std::getenv("DOCKER_SERVER_IP");
+		std::cout << ColorUtils::cyan("\nDOCKER_SERVER_IP: ") << ColorUtils::green(ip->std_str()) << "\n";
 
 		unsigned short port = 2375;
 		if (std::getenv("DOCKER_SERVER_PORT"))
 			port = atoi(std::getenv("DOCKER_SERVER_PORT"));
-		std::cout << ColorUtils::red("DOCKER_SERVER_PORT: ") << ColorUtils::yellow(std::to_string(port)) << "\n";
+		std::cout << ColorUtils::cyan("DOCKER_SERVER_PORT: ") << ColorUtils::green(std::to_string(port)) << "\n";
 
-		const auto &connectionProvider = oatpp::network::tcp::client::ConnectionProvider::createShared({ip, port});
+		const std::string uri = "http://" + ip->std_str() + ":" + std::to_string(port);
+		std::cout << ColorUtils::cyan("DOCKER_API_URL: ") << ColorUtils::blue(uri) << "\n";
+
+		const auto& connectionProvider = oatpp::network::tcp::client::ConnectionProvider::createShared({ip, port});
 
 		return oatpp::web::client::HttpRequestExecutor::createShared(connectionProvider);
 	}());

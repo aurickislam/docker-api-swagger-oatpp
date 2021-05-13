@@ -12,7 +12,7 @@ private:
 	{
 	}
 public:
-	const static Status getStatus(const int &code)
+	const static Status getStatus(const int& code)
 	{
 		switch (code)
 		{

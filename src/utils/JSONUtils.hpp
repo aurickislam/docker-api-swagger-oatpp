@@ -11,17 +11,15 @@ private:
 	OATPP_COMPONENT(std::shared_ptr<oatpp::data::mapping::ObjectMapper>, apiObjectMapper);
 
 public:
-	const char *toJSON(const oatpp::Void &dto)
+	const char* toJSON(const oatpp::Void& dto)
 	{
-		oatpp::String json = apiObjectMapper->writeToString(dto);
-		return json->c_str();
+		return apiObjectMapper->writeToString(dto)->c_str();
 	}
 
-	const char *toPrettyJSON(const oatpp::Void &dto)
+	/*const char* toPrettyJSON(const oatpp::Void& dto)
 	{
-		oatpp::String json = apiObjectMapper->writeToString(dto);
-		return json->c_str();
-	}
+		return apiObjectMapper->writeToString(dto)->c_str();
+	}*/
 };
 
 #endif /* docker_api_swagger_JSONUtils_hpp */
