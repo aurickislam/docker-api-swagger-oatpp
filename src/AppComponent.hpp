@@ -87,7 +87,7 @@ public:
 	}());*/
 
 	/**
-	 *  Create DockerAPIClient component to make API calls
+	 *  Create HttpRequestExecutor component to make API calls
 	 */
 	OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::web::client::HttpRequestExecutor>, requestExecutor)
 	([] {

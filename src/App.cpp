@@ -95,8 +95,9 @@ void run(const oatpp::base::CommandLineArguments& args)
 	oatpp::network::Server server(components.serverConnectionProvider.getObject(), components.serverConnectionHandler.getObject());
 
 	std::cout << ColorUtils::magenta("\n===============================\n");
-	std::cout << ColorUtils::green("Server is running at port: ") << ColorUtils::yellow(components.serverConnectionProvider.getObject()->getProperty("port").toString()->c_str());
+	std::cout << ColorUtils::green("Server is running at port: ") << ColorUtils::yellow(components.serverConnectionProvider.getObject()->getProperty("port").toString()->std_str());
 	std::cout << ColorUtils::magenta("\n===============================\n\n");
+
 	OATPP_LOGI("App", " Server started!\n");
 
 	server.run();

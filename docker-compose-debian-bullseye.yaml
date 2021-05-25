@@ -18,6 +18,6 @@ services:
       DOCKER_SERVER_PORT: 2375
     networks:
       docker-api-swagger:
-  
+
 networks:
   docker-api-swagger:
