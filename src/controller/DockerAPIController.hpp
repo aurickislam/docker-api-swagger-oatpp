@@ -37,7 +37,7 @@ private:
 	std::shared_ptr<OutgoingResponse> createJSONResponse(const Status& status, const oatpp::web::protocol::http::Headers& responseHeader, const String& json)
 	{
 		const auto& response = createResponse(status, json);
-		for (auto& head : responseHeader.getAll())
+		for (const auto& head : responseHeader.getAll())
 		{
 			if (head.first.std_str() != Header::TRANSFER_ENCODING)
 				response->putHeader(head.first.std_str().c_str(), head.second.std_str().c_str());

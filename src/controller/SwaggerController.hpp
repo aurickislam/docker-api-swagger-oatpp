@@ -28,7 +28,7 @@ private:
 	{
 		if (m_resources->isStreaming())
 		{
-			auto body = std::make_shared<StreamingBody>(m_resources->getResourceStream(filename->c_str()));
+			const auto& body = std::make_shared<StreamingBody>(m_resources->getResourceStream(filename->c_str()));
 			return OutgoingResponse::createShared(Status::CODE_200, body);
 		}
 		return createResponse(Status::CODE_200, m_resources->getResource(filename->c_str()));
