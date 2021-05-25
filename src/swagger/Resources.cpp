@@ -8,7 +8,7 @@ namespace swagger
 	Resources::Resources(const oatpp::String& resDir, bool streaming)
 	{
 		if (!resDir || resDir->getSize() == 0)
-			throw std::runtime_error("[swagger::Resources::Resources()]: Invalid resDir path. Please specify full path to oatpp-swagger/res folder");
+			throw std::runtime_error("[swagger::Resources::Resources()]: Invalid resDir path. Please specify full path to docker-api-swagger-oatpp/res folder");
 
 		m_resDir = resDir;
 		if (m_resDir->getData()[m_resDir->getSize() - 1] != '/')
@@ -17,43 +17,42 @@ namespace swagger
 		m_streaming = streaming;
 	}
 
-	void Resources::cacheResource(const char *fileName)
+	void Resources::cacheResource(const char* fileName)
 	{
 		m_resources[fileName] = loadFromFile(fileName);
 	}
 
-	oatpp::String Resources::loadFromFile(const char *fileName)
+	oatpp::String Resources::loadFromFile(const char* fileName)
 	{
-		auto fullFilename = m_resDir + fileName;
+		const auto& fullFilename = m_resDir + fileName;
 
 		std::ifstream file(fullFilename->c_str(), std::ios::in | std::ios::binary | std::ios::ate);
 
 		if (file.is_open())
 		{
-
-			auto result = oatpp::String((v_int32)file.tellg());
+			const auto& result = oatpp::String((v_int32)file.tellg());
 			file.seekg(0, std::ios::beg);
-			file.read((char *)result->getData(), result->getSize());
+			file.read((char*)result->getData(), result->getSize());
 			file.close();
 			return result;
 		}
 
 		OATPP_LOGE("swagger::Resources::loadFromFile()", "Can't load file '%s'", fullFilename->c_str());
-		throw std::runtime_error("[swagger::Resources::loadFromFile(...)]: Can't load file. Please make sure you specified full path to oatpp-swagger/res folder");
+		throw std::runtime_error("[swagger::Resources::loadFromFile(...)]: Can't load file. Please make sure you specified full path to docker-api-swagger-oatpp/res folder");
 	}
 
 	oatpp::String Resources::getResource(const oatpp::String& filename)
 	{
-		auto it = m_resources.find(filename);
+		const auto& it = m_resources.find(filename);
 		if (it != m_resources.end())
 			return it->second;
 
 		throw std::runtime_error(
 			"[swagger::Resources::getResource(...)]: Resource file not found. "
 			"Please make sure: "
-			"1. You are using correct version of oatpp-swagger. "
-			"2. oatpp-swagger/res is not empty. "
-			"3. You specified correct full path to oatpp-swagger/res folder");
+			"1. You are using correct version of oatpp-swagger."
+			"2. docker-api-swagger-oatpp/res is not empty."
+			"3. You specified correct full path to docker-api-swagger-oatpp/res folder");
 	}
 
 	std::shared_ptr<Resources::ReadCallback> Resources::getResourceStream(const oatpp::String& filename)
@@ -65,11 +64,11 @@ namespace swagger
 		catch (std::runtime_error& e)
 		{
 			throw std::runtime_error(
-				"[swagger::Resources::getResource(...)]: Resource file not found. "
-				"Please make sure: "
-				"1. You are using correct version of oatpp-swagger. "
-				"2. oatpp-swagger/res is not empty. "
-				"3. You specified correct full path to oatpp-swagger/res folder");
+				"[swagger::Resources::getResource(...)]: Resource file not found."
+				"Please make sure:"
+				"1. You are using correct version of oatpp-swagger."
+				"2. docker-api-swagger-oatpp/res is not empty."
+				"3. You specified correct full path to docker-api-swagger-oatpp/res folder");
 		}
 	}
 

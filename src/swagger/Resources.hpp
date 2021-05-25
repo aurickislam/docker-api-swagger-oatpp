@@ -50,7 +50,7 @@ namespace swagger
 		 */
 		static std::shared_ptr<Resources> loadResources(const oatpp::String& resDir)
 		{
-			auto res = std::make_shared<Resources>(resDir);
+			const auto& res = std::make_shared<Resources>(resDir);
 
 			res->cacheResource("favicon-16x16.png");
 			res->cacheResource("favicon-32x32.png");
