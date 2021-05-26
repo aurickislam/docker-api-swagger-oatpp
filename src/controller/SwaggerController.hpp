@@ -20,22 +20,22 @@ typedef oatpp::web::protocol::http::outgoing::StreamingBody StreamingBody;
 class SwaggerController : public oatpp::web::server::api::ApiController
 {
 private:
-	constexpr static const char* TAG = "SwaggerController";
+	constexpr static const char *TAG = "SwaggerController";
 	OATPP_COMPONENT(std::shared_ptr<swagger::Resources>, m_resources);
 
 private:
-	std::shared_ptr<ApiController::OutgoingResponse> getFile(const String& filename)
+	std::shared_ptr<ApiController::OutgoingResponse> getFile(const String &filename)
 	{
 		if (m_resources->isStreaming())
 		{
-			const auto& body = std::make_shared<StreamingBody>(m_resources->getResourceStream(filename->c_str()));
+			const auto &body = std::make_shared<StreamingBody>(m_resources->getResourceStream(filename->c_str()));
 			return OutgoingResponse::createShared(Status::CODE_200, body);
 		}
 		return createResponse(Status::CODE_200, m_resources->getResource(filename->c_str()));
 	}
 
 public:
-	SwaggerController(const std::shared_ptr<ObjectMapper>& objectMapper) : oatpp::web::server::api::ApiController(objectMapper)
+	SwaggerController(const std::shared_ptr<ObjectMapper> &objectMapper) : oatpp::web::server::api::ApiController(objectMapper)
 	{
 	}
 

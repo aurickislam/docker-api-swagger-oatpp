@@ -14,44 +14,45 @@
 
 typedef oatpp::web::protocol::http::Status Status;
 
-void run(const oatpp::base::CommandLineArguments& args)
+void run(const oatpp::base::CommandLineArguments &args)
 {
 	AppComponent components(args);
 
-	const auto& requestExecutor = components.requestExecutor.getObject();
+	const auto &requestExecutor = components.requestExecutor.getObject();
 
 	std::cout << ColorUtils::yellow("\nTrying to connect to DOCKER server\n\n");
 	try
 	{
-		const auto& headers = oatpp::web::protocol::http::Headers();
+		const auto &headers = oatpp::web::protocol::http::Headers();
 
-		const auto& infoResponse = requestExecutor->executeOnce("GET", "info", headers, nullptr, requestExecutor->getConnection());
+		const auto &infoResponse = requestExecutor->executeOnce("GET", "info", headers, nullptr, requestExecutor->getConnection());
 		if (infoResponse->getStatusCode() == Status::CODE_200.code)
 		{
-			const auto& apiObjectMapper = components.apiObjectMapper.getObject();
+			const auto &apiObjectMapper = components.apiObjectMapper.getObject();
 
-			const auto& infoResponseBody = infoResponse->readBodyToString();
+			const auto &infoResponseBody = infoResponse->readBodyToString();
 			/*const auto& json = apiObjectMapper->readFromString<oatpp::Fields<oatpp::Any>>(infoResponseBody);
       		auto Name = json.getValueByKey("Name");
       		std::cout << Name->type << "\n";*/
-			const auto& info = apiObjectMapper->readFromString<oatpp::Object<DockerInfo>>(infoResponseBody);
+			const auto &info = apiObjectMapper->readFromString<oatpp::Object<DockerInfo>>(infoResponseBody);
 
-
-			const auto& versionResponse = requestExecutor->executeOnce("GET", "version", headers, nullptr, requestExecutor->getConnection());
+			const auto &versionResponse = requestExecutor->executeOnce("GET", "version", headers, nullptr, requestExecutor->getConnection());
 			if (versionResponse->getStatusCode() == Status::CODE_200.code)
 			{
-				const auto& versionResponseBody = versionResponse->readBodyToString();
+				const auto &versionResponseBody = versionResponse->readBodyToString();
 
-				const auto& version = apiObjectMapper->readFromString<oatpp::Object<DockerVersion>>(versionResponseBody);
+				const auto &version = apiObjectMapper->readFromString<oatpp::Object<DockerVersion>>(versionResponseBody);
 
 				std::cout << ColorUtils::green("Server info:\n");
 				std::cout << ColorUtils::cyan("Name: ") << ColorUtils::red(info->Name->std_str()) << "\n";
 				std::cout << ColorUtils::cyan("CPU core: ") << ColorUtils::red(std::to_string(info->NCPU)) << "\n";
 
 				if (std::to_string(info->MemTotal).length() > 9)
-					std::cout << ColorUtils::cyan("Memory: ") << std::setprecision(3) << ColorUtils::RED << info->MemTotal / 1073753975.19 << " GB\n" << ColorUtils::RESET;
+					std::cout << ColorUtils::cyan("Memory: ") << std::setprecision(3) << ColorUtils::RED << info->MemTotal / 1073753975.19 << " GB\n"
+							  << ColorUtils::RESET;
 				else
-					std::cout << ColorUtils::cyan("Memory: ") << std::setprecision(0) << ColorUtils::RED<< info->MemTotal / 1048584 << " MB\n" << ColorUtils::RESET;
+					std::cout << ColorUtils::cyan("Memory: ") << std::setprecision(0) << ColorUtils::RED << info->MemTotal / 1048584 << " MB\n"
+							  << ColorUtils::RESET;
 
 				std::cout << ColorUtils::cyan("Operating System: ") << ColorUtils::red(info->OperatingSystem->std_str()) << "\n";
 				std::cout << ColorUtils::cyan("OS Version: ") << ColorUtils::red(info->OSVersion->std_str()) << "\n";
@@ -70,7 +71,7 @@ void run(const oatpp::base::CommandLineArguments& args)
 			}
 		}
 	}
-	catch (const std::exception& e)
+	catch (const std::exception &e)
 	{
 		std::cerr << e.what() << "\n\n";
 		std::cout << "Shutting down the application\n";
@@ -110,7 +111,8 @@ int main(int argc, const char *argv[])
 {
 	if (!std::getenv("DOCKER_SERVER_IP"))
 	{
-		std::cerr << ColorUtils::RED << "'DOCKER_SERVER_IP' is not provided through environment variable\n" << ColorUtils::RESET;
+		std::cerr << ColorUtils::RED << "'DOCKER_SERVER_IP' is not provided through environment variable\n"
+				  << ColorUtils::RESET;
 		return 1;
 	}
 

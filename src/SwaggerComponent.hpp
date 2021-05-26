@@ -16,10 +16,11 @@ public:
 	 *  Swagger-Ui Resources (../res)
 	 */
 	OATPP_CREATE_COMPONENT(std::shared_ptr<swagger::Resources>, swaggerResources)
-	([] {
-		// Make sure to specify correct full path to ../res folder !!!
-		return swagger::Resources::loadResources("../res");
-	}());
+	([]
+	 {
+		 // Make sure to specify correct full path to ../res folder !!!
+		 return swagger::Resources::loadResources("../res");
+	 }());
 };
 
 #endif /* docker_api_swagger_SwaggerComponent_hpp */

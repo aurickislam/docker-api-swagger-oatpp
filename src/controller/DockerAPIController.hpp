@@ -20,24 +20,24 @@ typedef oatpp::data::share::StringKeyLabel StringKeyLabel;
 class DockerAPIController : public oatpp::web::server::api::ApiController
 {
 private:
-	constexpr static const char* TAG = "DockerAPIController";
+	constexpr static const char *TAG = "DockerAPIController";
 	// OATPP_COMPONENT(std::shared_ptr<JSONUtils>, jsonUtils);
 	OATPP_COMPONENT(std::shared_ptr<oatpp::web::client::HttpRequestExecutor>, requestExecutor);
 
 private:
-	std::shared_ptr<OutgoingResponse> createErroeResponse(const Status& status, const String& message)
+	std::shared_ptr<OutgoingResponse> createErroeResponse(const Status &status, const String &message)
 	{
-		const auto& dto = ErrorResponseDto::createShared();
+		const auto &dto = ErrorResponseDto::createShared();
 		dto->statusCode = status.code;
 		dto->error = status.description;
 		dto->message = message;
 		return createDtoResponse(status, dto);
 	}
 
-	std::shared_ptr<OutgoingResponse> createJSONResponse(const Status& status, const oatpp::web::protocol::http::Headers& responseHeader, const String& json)
+	std::shared_ptr<OutgoingResponse> createJSONResponse(const Status &status, const oatpp::web::protocol::http::Headers &responseHeader, const String &json)
 	{
-		const auto& response = createResponse(status, json);
-		for (const auto& head : responseHeader.getAll())
+		const auto &response = createResponse(status, json);
+		for (const auto &head : responseHeader.getAll())
 		{
 			if (head.first.std_str() != Header::TRANSFER_ENCODING)
 				response->putHeader(head.first.std_str().c_str(), head.second.std_str().c_str());
@@ -46,7 +46,7 @@ private:
 	}
 
 public:
-	DockerAPIController(const std::shared_ptr<ObjectMapper>& objectMapper) : oatpp::web::server::api::ApiController(objectMapper)
+	DockerAPIController(const std::shared_ptr<ObjectMapper> &objectMapper) : oatpp::web::server::api::ApiController(objectMapper)
 	{
 	}
 
@@ -62,11 +62,11 @@ public:
 
 		try
 		{
-			const auto& response = requestExecutor->executeOnce("GET", request->getPathTail(), request->getHeaders(), nullptr, requestExecutor->getConnection());
+			const auto &response = requestExecutor->executeOnce("GET", request->getPathTail(), request->getHeaders(), nullptr, requestExecutor->getConnection());
 
 			return createJSONResponse(HttpStatusUtils::getStatus(response->getStatusCode()), response->getHeaders(), response->readBodyToString());
 		}
-		catch (const std::exception& e)
+		catch (const std::exception &e)
 		{
 			// std::cerr << e.what() << '\n';
 			OATPP_LOGE("TAG", " err: %s", e.what());
@@ -80,11 +80,11 @@ public:
 
 		try
 		{
-			const auto& response = requestExecutor->executeOnce("HEAD", request->getPathTail(), request->getHeaders(), nullptr, requestExecutor->getConnection());
+			const auto &response = requestExecutor->executeOnce("HEAD", request->getPathTail(), request->getHeaders(), nullptr, requestExecutor->getConnection());
 
 			return createJSONResponse(HttpStatusUtils::getStatus(response->getStatusCode()), response->getHeaders(), "");
 		}
-		catch (const std::exception& e)
+		catch (const std::exception &e)
 		{
 			OATPP_LOGE(TAG, " err: %s", e.what());
 			return createErroeResponse(Status::CODE_500, e.what());
@@ -97,11 +97,11 @@ public:
 
 		try
 		{
-			const auto& response = requestExecutor->executeOnce("DELETE", request->getPathTail(), request->getHeaders(), nullptr, requestExecutor->getConnection());
+			const auto &response = requestExecutor->executeOnce("DELETE", request->getPathTail(), request->getHeaders(), nullptr, requestExecutor->getConnection());
 
 			return createJSONResponse(HttpStatusUtils::getStatus(response->getStatusCode()), response->getHeaders(), response->readBodyToString());
 		}
-		catch (const std::exception& e)
+		catch (const std::exception &e)
 		{
 			OATPP_LOGE(TAG, " err: %s", e.what());
 			return createErroeResponse(Status::CODE_500, e.what());
@@ -112,15 +112,15 @@ public:
 	{
 		OATPP_LOGI(TAG, " POST: /%s", request->getPathTail()->getData());
 
-		const auto& body = BufferBody::createShared(request->readBodyToString(), StringKeyLabel("application/json"));
+		const auto &body = BufferBody::createShared(request->readBodyToString(), StringKeyLabel("application/json"));
 
 		try
 		{
-			auto response = requestExecutor->executeOnce("POST", request->getPathTail(), request->getHeaders(), body, requestExecutor->getConnection());
+			const auto &response = requestExecutor->executeOnce("POST", request->getPathTail(), request->getHeaders(), body, requestExecutor->getConnection());
 
 			return createJSONResponse(HttpStatusUtils::getStatus(response->getStatusCode()), response->getHeaders(), response->readBodyToString());
 		}
-		catch (const std::exception& e)
+		catch (const std::exception &e)
 		{
 			OATPP_LOGE(TAG, " err: %s", e.what());
 			return createErroeResponse(Status::CODE_500, e.what());
@@ -131,15 +131,15 @@ public:
 	{
 		OATPP_LOGI(TAG, " PUT /%s", request->getPathTail()->getData());
 
-		const auto& body = BufferBody::createShared(request->readBodyToString(), StringKeyLabel("application/json"));
+		const auto &body = BufferBody::createShared(request->readBodyToString(), StringKeyLabel("application/json"));
 
 		try
 		{
-			const auto& response = requestExecutor->executeOnce("PUT", request->getPathTail(), request->getHeaders(), body, requestExecutor->getConnection());
+			const auto &response = requestExecutor->executeOnce("PUT", request->getPathTail(), request->getHeaders(), body, requestExecutor->getConnection());
 
 			return createJSONResponse(HttpStatusUtils::getStatus(response->getStatusCode()), response->getHeaders(), response->readBodyToString());
 		}
-		catch (const std::exception& e)
+		catch (const std::exception &e)
 		{
 			OATPP_LOGE(TAG, " err: %s", e.what());
 			return createErroeResponse(Status::CODE_500, e.what());

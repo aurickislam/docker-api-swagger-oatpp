@@ -11,12 +11,12 @@ private:
 	OATPP_COMPONENT(std::shared_ptr<oatpp::data::mapping::ObjectMapper>, apiObjectMapper);
 
 public:
-	const char* toJSON(const oatpp::Void& dto)
+	const char *toJSON(const oatpp::Void &dto)
 	{
 		return apiObjectMapper->writeToString(dto)->c_str();
 	}
 
-	/*const char* toPrettyJSON(const oatpp::Void& dto)
+	/*const char *toPrettyJSON(const oatpp::Void &dto)
 	{
 		return apiObjectMapper->writeToString(dto)->c_str();
 	}*/
