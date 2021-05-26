@@ -75,7 +75,7 @@ void run(const oatpp::base::CommandLineArguments &args)
 	{
 		std::cerr << e.what() << "\n\n";
 		std::cout << "Shutting down the application\n";
-		exit(1);
+		throw std::exception();
 	}
 
 	auto router = components.httpRouter.getObject();
@@ -118,15 +118,21 @@ int main(int argc, const char *argv[])
 
 	oatpp::base::Environment::init();
 
-	run(oatpp::base::CommandLineArguments(argc, argv));
+	try
+	{
+		run(oatpp::base::CommandLineArguments(argc, argv));
+	}
+	catch (const std::exception &e)
+	{
+		/* Print how much objects were created during app running, and what have left-probably leaked */
+		/* Disable object counting for release builds using '-D OATPP_DISABLE_ENV_OBJECT_COUNTERS' flag for better performance */
+		std::cout << "\nEnvironment:\n";
+		std::cout << "objectsCount = " << oatpp::base::Environment::getObjectsCount() << "\n";
+		std::cout << "objectsCreated = " << oatpp::base::Environment::getObjectsCreated() << "\n\n";
 
-	/* Print how much objects were created during app running, and what have left-probably leaked */
-	/* Disable object counting for release builds using '-D OATPP_DISABLE_ENV_OBJECT_COUNTERS' flag for better performance */
-	std::cout << "\nEnvironment:\n";
-	std::cout << "objectsCount = " << oatpp::base::Environment::getObjectsCount() << "\n";
-	std::cout << "objectsCreated = " << oatpp::base::Environment::getObjectsCreated() << "\n\n";
-
-	oatpp::base::Environment::destroy();
+		oatpp::base::Environment::destroy();
+		return 1;
+	}
 
 	return 0;
 }
