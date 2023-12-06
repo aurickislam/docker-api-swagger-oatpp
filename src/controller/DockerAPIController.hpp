@@ -58,7 +58,7 @@ public:
 
 	ENDPOINT("GET", "*", dockerGet, REQUEST(std::shared_ptr<IncomingRequest>, request))
 	{
-		OATPP_LOGI(TAG, " GET: /%s", request->getPathTail()->getData());
+		OATPP_LOGI(TAG, " GET: /%s", request->getPathTail()->data());
 
 		try
 		{
@@ -76,7 +76,7 @@ public:
 
 	ENDPOINT("HEAD", "*", dockerHead, REQUEST(std::shared_ptr<IncomingRequest>, request))
 	{
-		OATPP_LOGI(TAG, " HEAD: /%s", request->getPathTail()->getData());
+		OATPP_LOGI(TAG, " HEAD: /%s", request->getPathTail()->data());
 
 		try
 		{
@@ -93,7 +93,7 @@ public:
 
 	ENDPOINT("DELETE", "*", dockerDelete, REQUEST(std::shared_ptr<IncomingRequest>, request))
 	{
-		OATPP_LOGI(TAG, " DELETE: /%s", request->getPathTail()->getData());
+		OATPP_LOGI(TAG, " DELETE: /%s", request->getPathTail()->data());
 
 		try
 		{
@@ -110,7 +110,7 @@ public:
 
 	ENDPOINT("POST", "*", dockerPost, REQUEST(std::shared_ptr<IncomingRequest>, request))
 	{
-		OATPP_LOGI(TAG, " POST: /%s", request->getPathTail()->getData());
+		OATPP_LOGI(TAG, " POST: /%s", request->getPathTail()->data());
 
 		const auto &body = BufferBody::createShared(request->readBodyToString(), StringKeyLabel("application/json"));
 
@@ -129,7 +129,7 @@ public:
 
 	ENDPOINT("PUT", "*", dockerPut, REQUEST(std::shared_ptr<IncomingRequest>, request))
 	{
-		OATPP_LOGI(TAG, " PUT /%s", request->getPathTail()->getData());
+		OATPP_LOGI(TAG, " PUT /%s", request->getPathTail()->data());
 
 		const auto &body = BufferBody::createShared(request->readBodyToString(), StringKeyLabel("application/json"));
 

@@ -1,4 +1,4 @@
-FROM debian:buster-slim as build
+FROM debian:bookworm-slim as build
 
 RUN apt update && apt upgrade -y && apt install -y git cmake build-essential libcurl4-openssl-dev pkg-config
 
@@ -20,7 +20,7 @@ RUN cmake -DCMAKE_BUILD_TYPE=Release ..
 RUN make -j $(nproc)
 
 
-FROM debian:buster-slim
+FROM debian:bookworm-slim
 
 RUN apt update && apt upgrade -y && apt install -y build-essential libcurl4-openssl-dev
 

@@ -14,6 +14,13 @@ namespace swagger
 		 */
 		class Binary
 		{
+		private:
+			static oatpp::Type *createType() {
+				oatpp::Type::Info info;
+				info.nameQualifier = "binary";
+				return new oatpp::Type(CLASS_ID, info);
+			}
+
 		public:
 			/**
 			 * CLASS_NAME = `"string"`.
@@ -24,10 +31,8 @@ namespace swagger
 			 * Get type information.
 			 * @return - &id:oatpp::data::mapping::type::Type;.
 			 */
-			static oatpp::data::mapping::type::Type *getType()
-			{
-				static oatpp::data::mapping::type::Type type(CLASS_ID, "binary");
-				return &type;
+			static oatpp::Type *getType() {
+				return createType();
 			}
 		};
 
@@ -38,7 +43,7 @@ namespace swagger
 	 * Usage example: `info->addConsumes<oatpp::swagger::Binary>("application/octet-stream");`.<br>
 	 * For more info see: [Endpoint Annotation And API Documentation](/docs/components/api-controller/#endpoint-annotation-and-api-documentation).
 	 */
-	typedef oatpp::data::mapping::type::ObjectWrapper<oatpp::base::StrBuffer, __class::Binary> Binary;
+	typedef oatpp::data::mapping::type::ObjectWrapper<std::string, __class::Binary> Binary;
 
 }
 

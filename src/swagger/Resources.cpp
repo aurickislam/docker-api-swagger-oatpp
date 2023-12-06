@@ -7,12 +7,14 @@ namespace swagger
 {
 	Resources::Resources(const oatpp::String &resDir, const bool streaming)
 	{
-		if (!resDir || resDir->getSize() == 0)
-			throw std::runtime_error("[swagger::Resources::Resources()]: Invalid resDir path. Please specify full path to docker-api-swagger-oatpp/res folder");
+		if (!resDir || resDir->size() == 0) {
+			throw std::runtime_error("[oatpp::swagger::Resources::Resources()]: Invalid resDir path. Please specify full path to oatpp-swagger/res folder");
+		}
 
 		m_resDir = resDir;
-		if (m_resDir->getData()[m_resDir->getSize() - 1] != '/')
+		if (m_resDir->data()[m_resDir->size() - 1] != '/') {
 			m_resDir = m_resDir + "/";
+		}
 
 		m_streaming = streaming;
 	}
@@ -33,7 +35,7 @@ namespace swagger
 		{
 			const auto &result = oatpp::String((v_int32)file.tellg());
 			file.seekg(0, std::ios::beg);
-			file.read((char *)result->getData(), result->getSize());
+			file.read((char *)result->data(), result->size());
 			file.close();
 			return result;
 		}
@@ -45,8 +47,9 @@ namespace swagger
 	oatpp::String Resources::getResource(const oatpp::String &filename)
 	{
 		const auto &it = m_resources.find(filename);
-		if (it != m_resources.end())
+		if (it != m_resources.end()) {
 			return it->second;
+		}
 
 		throw std::runtime_error(
 			"[swagger::Resources::getResource(...)]: Resource file not found. "
@@ -81,4 +84,27 @@ namespace swagger
 	{
 		return m_stream.read(buffer, count, action);
 	}
+
+	bool Resources::hasEnding(std::string fullString, std::string const &ending) const {
+		std::transform(fullString.begin(), fullString.end(), fullString.begin(),
+					[](unsigned char c) { return std::tolower(c); });
+		if (fullString.length() >= ending.length()) {
+			return (0 == fullString.compare(fullString.length() - ending.length(), ending.length(), ending));
+		} else {
+			return false;
+		}
+	}
+
+	std::string Resources::getMimeType(const std::string &filename) const {
+		if (hasEnding(filename, ".html")) return "text/html";
+		if (hasEnding(filename, ".jpg")) return "image/jpeg";
+		if (hasEnding(filename, ".jpeg")) return "image/jpeg";
+		if (hasEnding(filename, ".png")) return "image/png";
+		if (hasEnding(filename, ".gif")) return "image/gif";
+		if (hasEnding(filename, ".css")) return "text/css";
+		if (hasEnding(filename, ".js")) return "text/javascript";
+		if (hasEnding(filename, ".xml")) return "text/xml";
+		return "text/plain";
+	}
+
 }

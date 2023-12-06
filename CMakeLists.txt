@@ -4,7 +4,7 @@ set(project_name docker-api-swagger)
 
 project(${project_name})
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 20)
 
 add_library(${project_name}-lib
         src/AppComponent.hpp
@@ -19,10 +19,10 @@ add_library(${project_name}-lib
         src/swagger/Resources.hpp
         src/swagger/Types.cpp
         src/swagger/Types.hpp
-        )
+)
 
-find_package(oatpp          1.2.5 REQUIRED)
-find_package(oatpp-curl     1.2.5 REQUIRED)
+find_package(oatpp          1.3.0 REQUIRED)
+find_package(oatpp-curl     1.3.0 REQUIRED)
 
 ## include directories
 

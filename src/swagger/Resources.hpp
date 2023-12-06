@@ -3,7 +3,7 @@
 #define docker_api_swagger_Resources_hpp
 
 #include "oatpp/core/Types.hpp"
-#include "oatpp/core/data/stream/ChunkedBuffer.hpp"
+#include "oatpp/core/data/stream/BufferStream.hpp"
 #include "oatpp/core/data/stream/FileStream.hpp"
 
 #include <unordered_map>
@@ -23,6 +23,7 @@ namespace swagger
 	private:
 		oatpp::String loadFromFile(const char *fileName);
 		void cacheResource(const char *fileName);
+		bool hasEnding(std::string fullString, std::string const &ending) const;
 
 		class ReadCallback : public oatpp::data::stream::ReadCallback
 		{
@@ -105,6 +106,13 @@ namespace swagger
 		{
 			return m_streaming;
 		}
+
+		/**
+		 * Returns the MIME type for a given filename
+		 * @param filename to return the MIME type
+		 * @return a MIME type
+		 */
+		std::string getMimeType(const std::string &filename) const;
 	};
 }
 

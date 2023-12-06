@@ -93,14 +93,14 @@ public:
 	([]
 	 {
 		 const oatpp::String &ip = std::getenv("DOCKER_SERVER_IP");
-		 std::cout << ColorUtils::cyan("\nDOCKER_SERVER_IP: ") << ColorUtils::green(ip->std_str()) << "\n";
+		 std::cout << ColorUtils::cyan("\nDOCKER_SERVER_IP: ") << ColorUtils::green(ip) << "\n";
 
 		 unsigned short port = 2375;
 		 if (std::getenv("DOCKER_SERVER_PORT"))
 			 port = atoi(std::getenv("DOCKER_SERVER_PORT"));
 		 std::cout << ColorUtils::cyan("DOCKER_SERVER_PORT: ") << ColorUtils::green(std::to_string(port)) << "\n";
 
-		 const std::string uri = "http://" + ip->std_str() + ":" + std::to_string(port);
+		 const std::string uri = "http://" + ip + ":" + std::to_string(port);
 		 std::cout << ColorUtils::cyan("DOCKER_API_URL: ") << ColorUtils::blue(uri) << "\n";
 
 		 const auto &connectionProvider = oatpp::network::tcp::client::ConnectionProvider::createShared({ip, port});

@@ -1,15 +1,13 @@
-version: '3.8'
-
 services:
-  docker-api-swagger:
+  docker-api-swagger-oatpp:
     build:
       context: .
-      dockerfile: Dockerfile-debian-bullseye
+      dockerfile: Dockerfile-debian
       args:
         - MAKE_PARALLEL_EXECUTION=ON  # ON/OFF
-    image: docker-api-swagger:debian-bullseye
-    container_name: docker-api-swagger
-    hostname: docker-api-swagger
+    image: docker-api-swagger-oatpp:debian
+    container_name: docker-api-swagger-oatpp
+    hostname: docker-api-swagger-oatpp
     restart: always
     ports:
       - 8001:8001
@@ -17,7 +15,7 @@ services:
       DOCKER_SERVER_IP: 192.168.88.18
       DOCKER_SERVER_PORT: 2375
     networks:
-      docker-api-swagger:
+      docker-api-swagger-oatpp:
 
 networks:
-  docker-api-swagger:
+  docker-api-swagger-oatpp:

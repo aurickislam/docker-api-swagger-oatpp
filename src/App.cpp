@@ -44,7 +44,7 @@ void run(const oatpp::base::CommandLineArguments &args)
 				const auto &version = apiObjectMapper->readFromString<oatpp::Object<DockerVersion>>(versionResponseBody);
 
 				std::cout << ColorUtils::green("Server info:\n");
-				std::cout << ColorUtils::cyan("Name: ") << ColorUtils::red(info->Name->std_str()) << "\n";
+				std::cout << ColorUtils::cyan("Name: ") << ColorUtils::red(info->Name) << "\n";
 				std::cout << ColorUtils::cyan("CPU core: ") << ColorUtils::red(std::to_string(info->NCPU)) << "\n";
 
 				if (std::to_string(info->MemTotal).length() > 9)
@@ -54,20 +54,20 @@ void run(const oatpp::base::CommandLineArguments &args)
 					std::cout << ColorUtils::cyan("Memory: ") << std::setprecision(0) << ColorUtils::RED << info->MemTotal / 1048584 << " MB\n"
 							  << ColorUtils::RESET;
 
-				std::cout << ColorUtils::cyan("Operating System: ") << ColorUtils::red(info->OperatingSystem->std_str()) << "\n";
-				std::cout << ColorUtils::cyan("OS Version: ") << ColorUtils::red(info->OSVersion->std_str()) << "\n";
-				std::cout << ColorUtils::cyan("OS Type: ") << ColorUtils::red(info->OSType->std_str()) << "\n";
-				std::cout << ColorUtils::cyan("Kernel Version: ") << ColorUtils::red(info->KernelVersion->std_str()) << "\n";
-				std::cout << ColorUtils::cyan("Architecture: ") << ColorUtils::red(info->Architecture->std_str()) << "\n";
-				std::cout << ColorUtils::cyan("Arch: ") << ColorUtils::red(version->Arch->std_str()) << "\n";
+				std::cout << ColorUtils::cyan("Operating System: ") << ColorUtils::red(info->OperatingSystem) << "\n";
+				std::cout << ColorUtils::cyan("OS Version: ") << ColorUtils::red(info->OSVersion) << "\n";
+				std::cout << ColorUtils::cyan("OS Type: ") << ColorUtils::red(info->OSType) << "\n";
+				std::cout << ColorUtils::cyan("Kernel Version: ") << ColorUtils::red(info->KernelVersion) << "\n";
+				std::cout << ColorUtils::cyan("Architecture: ") << ColorUtils::red(info->Architecture) << "\n";
+				std::cout << ColorUtils::cyan("Arch: ") << ColorUtils::red(version->Arch) << "\n";
 				std::cout << ColorUtils::cyan("Images: ") << ColorUtils::red(std::to_string(info->Images)) << "\n";
 				std::cout << ColorUtils::cyan("Containers: ") << ColorUtils::red(std::to_string(info->Containers)) << "\n";
 				std::cout << ColorUtils::cyan("Containers Running: ") << ColorUtils::red(std::to_string(info->ContainersRunning)) << "\n";
 
 				std::cout << ColorUtils::green("\nDocker info:\n");
-				std::cout << ColorUtils::cyan("Docker Version: ") << ColorUtils::red(version->Version->std_str()) << "\n";
-				std::cout << ColorUtils::cyan("Api Version: ") << ColorUtils::red(version->ApiVersion->std_str()) << "\n";
-				std::cout << ColorUtils::cyan("Min API Version: ") << ColorUtils::red(version->MinAPIVersion->std_str()) << "\n";
+				std::cout << ColorUtils::cyan("Docker Version: ") << ColorUtils::red(version->Version) << "\n";
+				std::cout << ColorUtils::cyan("Api Version: ") << ColorUtils::red(version->ApiVersion) << "\n";
+				std::cout << ColorUtils::cyan("Min API Version: ") << ColorUtils::red(version->MinAPIVersion) << "\n";
 			}
 		}
 	}
@@ -80,23 +80,18 @@ void run(const oatpp::base::CommandLineArguments &args)
 
 	auto router = components.httpRouter.getObject();
 
-	auto docEndpoints = SwaggerController::Endpoints::createShared();
+	// oatpp::web::server::api::Endpoints docEndpoints;
 
-	auto swaggerController = SwaggerController::createShared();
-	swaggerController->addEndpointsToRouter(router);
+	// docEndpoints.append(router->addController(SwaggerController::createShared())->getEndpoints());
 
-	docEndpoints->pushBackAll(swaggerController->getEndpoints());
-
-	auto dockerAPIController = DockerAPIController::createShared();
-	dockerAPIController->addEndpointsToRouter(router);
-
-	docEndpoints->pushBackAll(dockerAPIController->getEndpoints());
+	router->addController(SwaggerController::createShared());
+	router->addController(DockerAPIController::createShared());
 
 	/* create server */
 	oatpp::network::Server server(components.serverConnectionProvider.getObject(), components.serverConnectionHandler.getObject());
 
 	std::cout << ColorUtils::magenta("\n===============================\n");
-	std::cout << ColorUtils::green("Server is running at port: ") << ColorUtils::yellow(components.serverConnectionProvider.getObject()->getProperty("port").toString()->std_str());
+	std::cout << ColorUtils::green("Server is running at port: ") << ColorUtils::yellow(components.serverConnectionProvider.getObject()->getProperty("port").toString());
 	std::cout << ColorUtils::magenta("\n===============================\n\n");
 
 	OATPP_LOGI("App", " Server started!\n");
