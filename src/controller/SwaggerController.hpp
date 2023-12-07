@@ -1,6 +1,6 @@
 
-#ifndef docker_api_swagger_SwaggerController_hpp
-#define docker_api_swagger_SwaggerController_hpp
+#ifndef docker_api_swagger_oatpp_SwaggerController_hpp
+#define docker_api_swagger_oatpp_SwaggerController_hpp
 
 #include "swagger/Types.hpp"
 #include "swagger/Resources.hpp"

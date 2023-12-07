@@ -8,11 +8,22 @@ services:
     image: docker-api-swagger-oatpp:alpine
     container_name: docker-api-swagger-oatpp
     hostname: docker-api-swagger-oatpp
-    restart: always
+    # restart: unless-stopped
+    working_dir: /app/build
+    command: >
+      bash -c '
+        cmake &&
+        make -j $(nproc) &&
+        ./docker-api-swagger-oatpp
+      '
+    volumes:
+      - ./:/app
     ports:
       - 8001:8001
+    # expose:
+      # - 8001
     environment:
-      DOCKER_SERVER_IP: 192.168.88.8
+      DOCKER_SERVER_IP: 192.168.88.18
       DOCKER_SERVER_PORT: 2375
     networks:
       docker-api-swagger-oatpp:

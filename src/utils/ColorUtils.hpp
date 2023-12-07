@@ -1,5 +1,5 @@
-#ifndef docker_api_swagger_ColorUtils_hpp
-#define docker_api_swagger_ColorUtils_hpp
+#ifndef docker_api_swagger_oatpp_ColorUtils_hpp
+#define docker_api_swagger_oatpp_ColorUtils_hpp
 
 #include <string.h>
 

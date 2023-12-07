@@ -1,6 +1,6 @@
 
-#ifndef docker_api_swagger_Types_hpp
-#define docker_api_swagger_Types_hpp
+#ifndef docker_api_swagger_oatpp_Types_hpp
+#define docker_api_swagger_oatpp_Types_hpp
 
 #include "oatpp/core/data/mapping/type/Type.hpp"
 #include "oatpp/core/Types.hpp"

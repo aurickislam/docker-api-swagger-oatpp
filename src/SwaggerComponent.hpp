@@ -1,6 +1,6 @@
 
-#ifndef docker_api_swagger_SwaggerComponent_hpp
-#define docker_api_swagger_SwaggerComponent_hpp
+#ifndef docker_api_swagger_oatpp_SwaggerComponent_hpp
+#define docker_api_swagger_oatpp_SwaggerComponent_hpp
 
 #include "swagger/Resources.hpp"
 #include "oatpp/core/macro/component.hpp"

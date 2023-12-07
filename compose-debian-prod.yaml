@@ -2,7 +2,7 @@ services:
   docker-api-swagger-oatpp:
     build:
       context: .
-      dockerfile: Dockerfile-debian
+      dockerfile: Dockerfile-debian-prod
       args:
         - MAKE_PARALLEL_EXECUTION=ON  # ON/OFF
     image: docker-api-swagger-oatpp:debian

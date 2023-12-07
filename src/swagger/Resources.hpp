@@ -1,6 +1,6 @@
 
-#ifndef docker_api_swagger_Resources_hpp
-#define docker_api_swagger_Resources_hpp
+#ifndef docker_api_swagger_oatpp_Resources_hpp
+#define docker_api_swagger_oatpp_Resources_hpp
 
 #include "oatpp/core/Types.hpp"
 #include "oatpp/core/data/stream/BufferStream.hpp"
@@ -69,7 +69,8 @@ namespace swagger
 			res->cacheResource("swagger-ui-es-bundle.js.map");*/
 			res->cacheResource("swagger-ui-standalone-preset.js");
 			res->cacheResource("swagger-ui-standalone-preset.js.map");
-			res->cacheResource("swagger.json");
+			// res->cacheResource("swagger.json");
+			res->cacheResource("swagger.yaml");
 
 			return res;
 		}

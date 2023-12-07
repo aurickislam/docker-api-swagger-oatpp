@@ -1,6 +1,6 @@
 
-#ifndef docker_api_swagger_DockerAPIController_hpp
-#define docker_api_swagger_DockerAPIController_hpp
+#ifndef docker_api_swagger_oatpp_DockerAPIController_hpp
+#define docker_api_swagger_oatpp_DockerAPIController_hpp
 
 #include "dto/DTOs.hpp"
 #include "utils/HttpStatusUtils.hpp"

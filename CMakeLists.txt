@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1)
 
-set(project_name docker-api-swagger)
+set(project_name docker-api-swagger-oatpp)
 
 project(${project_name})
 

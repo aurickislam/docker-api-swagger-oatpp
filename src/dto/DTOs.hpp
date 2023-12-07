@@ -1,6 +1,6 @@
 
-#ifndef docker_api_swagger_DTOs_hpp
-#define docker_api_swagger_DTOs_hpp
+#ifndef docker_api_swagger_oatpp_DTOs_hpp
+#define docker_api_swagger_oatpp_DTOs_hpp
 
 #include "oatpp/core/Types.hpp"
 #include "oatpp/core/macro/codegen.hpp"

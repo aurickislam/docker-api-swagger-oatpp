@@ -24,7 +24,7 @@ FROM debian:bookworm-slim
 
 RUN apt update && apt upgrade -y && apt install -y build-essential libcurl4-openssl-dev
 
-COPY --from=build /app/build/docker-api-swagger /app/build/docker-api-swagger
+COPY --from=build /app/build/docker-api-swagger-oatpp /app/build/docker-api-swagger-oatpp
 
 COPY ./res /app/res
 
@@ -32,4 +32,4 @@ WORKDIR /app/build
 
 # EXPOSE 8001
 
-CMD ["./docker-api-swagger"]
+CMD ["./docker-api-swagger-oatpp"]

@@ -1,6 +1,6 @@
 
-#ifndef docker_api_swagger_AppComponent_hpp
-#define docker_api_swagger_AppComponent_hpp
+#ifndef docker_api_swagger_oatpp_AppComponent_hpp
+#define docker_api_swagger_oatpp_AppComponent_hpp
 
 // #include "utils/JSONUtils.hpp"
 #include "utils/ColorUtils.hpp"

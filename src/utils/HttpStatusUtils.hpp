@@ -1,5 +1,5 @@
-#ifndef docker_api_swagger_HttpStatusUtils_hpp
-#define docker_api_swagger_HttpStatusUtils_hpp
+#ifndef docker_api_swagger_oatpp_HttpStatusUtils_hpp
+#define docker_api_swagger_oatpp_HttpStatusUtils_hpp
 
 #include "oatpp/web/protocol/http/Http.hpp"
 
