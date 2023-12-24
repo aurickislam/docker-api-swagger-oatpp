@@ -1,6 +1,11 @@
-FROM alpine:3.13 as build
+FROM alpine:3.19 as base
 
-RUN apk update && apk upgrade && apk --no-cache add g++ git make cmake pkgconfig curl-dev
+RUN apk update && apk upgrade && apk --no-cache add g++
+
+
+FROM base as build
+
+RUN apk --no-cache add git make cmake pkgconfig curl-dev
 
 ARG MAKE_PARALLEL_EXECUTION
 ENV MAKE_PARALLEL_EXECUTION $MAKE_PARALLEL_EXECUTION
@@ -16,20 +21,15 @@ COPY ./CMakeLists.txt /app
 
 WORKDIR /app/build
 
-RUN cmake ..
-RUN make -j $(nproc)
+RUN cmake -DCMAKE_BUILD_TYPE=Release .. && make -j $(nproc)
 
 
-FROM alpine:3.13
-
-RUN apk update && apk upgrade && apk add g++
+FROM base
 
 COPY --from=build /app/build/docker-api-swagger-oatpp /app/build/docker-api-swagger-oatpp
 
 COPY ./res /app/res
 
 WORKDIR /app/build
-
-# EXPOSE 8001
 
 CMD ["./docker-api-swagger-oatpp"]

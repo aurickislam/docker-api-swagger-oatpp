@@ -1,6 +1,11 @@
-FROM debian:bookworm-slim as build
+FROM debian:bookworm-slim as base
 
-RUN apt update && apt upgrade -y && apt install -y git cmake build-essential libcurl4-openssl-dev pkg-config
+RUN apt update && apt upgrade -y && apt install -y build-essential libcurl4-openssl-dev
+
+
+FROM base as build
+
+RUN apt install -y git cmake pkg-config
 
 ARG MAKE_PARALLEL_EXECUTION
 ENV MAKE_PARALLEL_EXECUTION $MAKE_PARALLEL_EXECUTION
@@ -16,13 +21,10 @@ COPY ./CMakeLists.txt /app
 
 WORKDIR /app/build
 
-RUN cmake -DCMAKE_BUILD_TYPE=Release ..
-RUN make -j $(nproc)
+RUN cmake -DCMAKE_BUILD_TYPE=Release .. && make -j $(nproc)
 
 
-FROM debian:bookworm-slim
-
-RUN apt update && apt upgrade -y && apt install -y build-essential libcurl4-openssl-dev
+FROM base
 
 COPY --from=build /app/build/docker-api-swagger-oatpp /app/build/docker-api-swagger-oatpp
 
