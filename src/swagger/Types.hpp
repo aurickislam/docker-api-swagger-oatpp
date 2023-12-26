@@ -47,4 +47,4 @@ namespace swagger
 
 }
 
-#endif /* docker_api_swagger_Types_hpp */
+#endif /* docker_api_swagger_oatpp_Types_hpp */

@@ -17,14 +17,13 @@ typedef oatpp::data::share::StringKeyLabel StringKeyLabel;
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
-class DockerAPIController : public oatpp::web::server::api::ApiController
+class DockerAPIController final : public oatpp::web::server::api::ApiController
 {
 private:
 	constexpr static const char *TAG = "DockerAPIController";
 	// OATPP_COMPONENT(std::shared_ptr<JSONUtils>, jsonUtils);
 	OATPP_COMPONENT(std::shared_ptr<oatpp::web::client::HttpRequestExecutor>, requestExecutor);
 
-private:
 	std::shared_ptr<OutgoingResponse> createErroeResponse(const Status &status, const String &message)
 	{
 		const auto &dto = ErrorResponseDto::createShared();
@@ -46,11 +45,10 @@ private:
 	}
 
 public:
-	DockerAPIController(const std::shared_ptr<ObjectMapper> &objectMapper) : oatpp::web::server::api::ApiController(objectMapper)
+	explicit DockerAPIController(const std::shared_ptr<ObjectMapper> &objectMapper) : ApiController(objectMapper)
 	{
 	}
 
-public:
 	static std::shared_ptr<DockerAPIController> createShared(OATPP_COMPONENT(std::shared_ptr<ObjectMapper>, objectMapper))
 	{
 		return std::make_shared<DockerAPIController>(objectMapper);
@@ -69,7 +67,7 @@ public:
 		catch (const std::exception &e)
 		{
 			// std::cerr << e.what() << '\n';
-			OATPP_LOGE("TAG", " err: %s", e.what());
+			OATPP_LOGE(TAG, " err: %s", e.what());
 			return createErroeResponse(Status::CODE_500, e.what());
 		}
 	}
@@ -216,4 +214,4 @@ public:
 
 #include OATPP_CODEGEN_END(ApiController)
 
-#endif /* docker_api_swagger_DockerAPIController_hpp */
+#endif /* docker_api_swagger_oatpp_DockerAPIController_hpp */

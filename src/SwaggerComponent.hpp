@@ -19,8 +19,8 @@ public:
 	([]
 	 {
 		 // Make sure to specify correct full path to ../res folder !!!
-		 return swagger::Resources::loadResources("../res");
+		 return swagger::Resources::loadResources("./res");
 	 }());
 };
 
-#endif /* docker_api_swagger_SwaggerComponent_hpp */
+#endif /* docker_api_swagger_oatpp_SwaggerComponent_hpp */

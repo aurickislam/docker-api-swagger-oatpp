@@ -6,7 +6,6 @@
 #include "controller/DockerAPIController.hpp"
 #include "controller/SwaggerController.hpp"
 #include "AppComponent.hpp"
-#include "dto/DTOs.hpp"
 #include "utils/ColorUtils.hpp"
 
 #include "oatpp/network/Server.hpp"

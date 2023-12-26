@@ -146,4 +146,4 @@ public:
 	}
 };
 
-#endif /* docker_api_swagger_HttpStatusUtils_hpp */
+#endif /* docker_api_swagger_oatpp_HttpStatusUtils_hpp */

@@ -3,7 +3,7 @@
 #define docker_api_swagger_oatpp_Resources_hpp
 
 #include "oatpp/core/Types.hpp"
-#include "oatpp/core/data/stream/BufferStream.hpp"
+// #include "oatpp/core/data/stream/BufferStream.hpp"
 #include "oatpp/core/data/stream/FileStream.hpp"
 
 #include <unordered_map>
@@ -20,7 +20,6 @@ namespace swagger
 		std::unordered_map<oatpp::String, oatpp::String> m_resources;
 		bool m_streaming;
 
-	private:
 		oatpp::String loadFromFile(const char *fileName);
 		void cacheResource(const char *fileName);
 		bool hasEnding(std::string fullString, std::string const &ending) const;
@@ -43,7 +42,6 @@ namespace swagger
 		 */
 		Resources(const oatpp::String &resDir, bool streaming = false);
 
-	public:
 		/**
 		 * Load and cache Swagger-UI resources.
 		 * @param resDir - directory containing swagger-ui resources.
@@ -117,4 +115,4 @@ namespace swagger
 	};
 }
 
-#endif /* docker_api_swagger_Resources_hpp */
+#endif /* docker_api_swagger_oatpp_Resources_hpp */

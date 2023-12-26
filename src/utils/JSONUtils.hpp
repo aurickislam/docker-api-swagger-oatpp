@@ -22,4 +22,4 @@ public:
 	}*/
 };
 
-#endif /* docker_api_swagger_JSONUtils_hpp */
+#endif /* docker_api_swagger_oatpp_JSONUtils_hpp */

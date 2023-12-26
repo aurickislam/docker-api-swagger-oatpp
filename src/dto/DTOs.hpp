@@ -59,4 +59,4 @@ class DockerVersion : public oatpp::DTO
 
 #include OATPP_CODEGEN_END(DTO)
 
-#endif /* docker_api_swagger_DTOs_hpp */
+#endif /* docker_api_swagger_oatpp_DTOs_hpp */

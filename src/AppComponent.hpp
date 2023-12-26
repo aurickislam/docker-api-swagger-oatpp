@@ -109,4 +109,4 @@ public:
 	 }());
 };
 
-#endif /* docker_api_swagger_AppComponent_hpp */
+#endif /* docker_api_swagger_oatpp_AppComponent_hpp */

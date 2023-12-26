@@ -1,6 +1,6 @@
 
 #include "Resources.hpp"
-#include <stdio.h>
+// #include <stdio.h>
 #include <fstream>
 
 namespace swagger

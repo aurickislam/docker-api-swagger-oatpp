@@ -17,7 +17,7 @@ typedef oatpp::web::protocol::http::outgoing::StreamingBody StreamingBody;
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
-class SwaggerController : public oatpp::web::server::api::ApiController
+class SwaggerController final : public oatpp::web::server::api::ApiController
 {
 private:
 	constexpr static const char *TAG = "SwaggerController";
@@ -58,4 +58,4 @@ public:
 
 #include OATPP_CODEGEN_END(ApiController)
 
-#endif /* docker_api_swagger_SwaggerController_hpp */
+#endif /* docker_api_swagger_oatpp_SwaggerController_hpp */

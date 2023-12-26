@@ -73,4 +73,4 @@ public:
 	}
 };
 
-#endif /* docker_api_swagger_ColorUtils_hpp */
+#endif /* docker_api_swagger_oatpp_ColorUtils_hpp */
