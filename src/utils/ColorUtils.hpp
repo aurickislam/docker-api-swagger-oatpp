@@ -1,14 +1,10 @@
 #ifndef docker_api_swagger_oatpp_ColorUtils_hpp
 #define docker_api_swagger_oatpp_ColorUtils_hpp
 
-#include <string.h>
-
 class ColorUtils
 {
 private:
-	ColorUtils()
-	{
-	}
+	ColorUtils() = default;
 
 public:
 	constexpr static const char *RESET = "\033[0m";
@@ -32,42 +28,42 @@ public:
 	constexpr static const char *BOLD_WHITE = "\033[1m\033[37m";*/
 
 public:
-	static const std::string black(const std::string &text)
+	static std::string black(const std::string &text)
 	{
 		return BLACK + text + RESET;
 	}
 
-	static const std::string red(const std::string &text)
+	static std::string red(const std::string &text)
 	{
 		return RED + text + RESET;
 	}
 
-	static const std::string green(const std::string &text)
+	static std::string green(const std::string &text)
 	{
 		return GREEN + text + RESET;
 	}
 
-	static const std::string yellow(const std::string &text)
+	static std::string yellow(const std::string &text)
 	{
 		return YELLOW + text + RESET;
 	}
 
-	static const std::string blue(const std::string &text)
+	static std::string blue(const std::string &text)
 	{
 		return BLUE + text + RESET;
 	}
 
-	static const std::string magenta(const std::string &text)
+	static std::string magenta(const std::string &text)
 	{
 		return MAGENTA + text + RESET;
 	}
 
-	static const std::string cyan(const std::string &text)
+	static std::string cyan(const std::string& text)
 	{
 		return CYAN + text + RESET;
 	}
 
-	static const std::string white(const std::string &text)
+	static std::string white(const std::string& text)
 	{
 		return WHITE + text + RESET;
 	}

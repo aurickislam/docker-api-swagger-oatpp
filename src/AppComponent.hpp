@@ -37,11 +37,10 @@ private:
 	SwaggerComponent swaggerComponent;
 
 public:
-	AppComponent(const oatpp::base::CommandLineArguments &cmdArgs) : m_cmdArgs(cmdArgs)
+	explicit AppComponent(const oatpp::base::CommandLineArguments &cmdArgs) : m_cmdArgs(cmdArgs)
 	{
 	}
 
-public:
 	/**
 	 *  Create ConnectionProvider component which listens on the port
 	 */

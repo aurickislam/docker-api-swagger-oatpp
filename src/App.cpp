@@ -77,7 +77,7 @@ void run(const oatpp::base::CommandLineArguments &args)
 		throw std::exception();
 	}
 
-	auto router = components.httpRouter.getObject();
+	const auto router = components.httpRouter.getObject();
 
 	// oatpp::web::server::api::Endpoints docEndpoints;
 

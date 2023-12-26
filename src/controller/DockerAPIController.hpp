@@ -24,7 +24,7 @@ private:
 	// OATPP_COMPONENT(std::shared_ptr<JSONUtils>, jsonUtils);
 	OATPP_COMPONENT(std::shared_ptr<oatpp::web::client::HttpRequestExecutor>, requestExecutor);
 
-	std::shared_ptr<OutgoingResponse> createErroeResponse(const Status &status, const String &message)
+	std::shared_ptr<OutgoingResponse> createErroeResponse(const Status &status, const String &message) const
 	{
 		const auto &dto = ErrorResponseDto::createShared();
 		dto->statusCode = status.code;
@@ -33,7 +33,7 @@ private:
 		return createDtoResponse(status, dto);
 	}
 
-	std::shared_ptr<OutgoingResponse> createJSONResponse(const Status &status, const oatpp::web::protocol::http::Headers &responseHeader, const String &json)
+	std::shared_ptr<OutgoingResponse> createJSONResponse(const Status &status, const oatpp::web::protocol::http::Headers &responseHeader, const String &json) const
 	{
 		const auto &response = createResponse(status, json);
 		for (const auto &head : responseHeader.getAll())

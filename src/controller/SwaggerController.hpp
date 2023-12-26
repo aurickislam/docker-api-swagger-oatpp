@@ -8,7 +8,7 @@
 #include "oatpp/web/server/api/ApiController.hpp"
 #include "oatpp/web/protocol/http/outgoing/StreamingBody.hpp"
 
-#include "oatpp/core/data/stream/BufferStream.hpp"
+// #include "oatpp/core/data/stream/BufferStream.hpp"
 
 #include "oatpp/core/macro/codegen.hpp"
 #include "oatpp/core/macro/component.hpp"
@@ -23,8 +23,7 @@ private:
 	constexpr static const char *TAG = "SwaggerController";
 	OATPP_COMPONENT(std::shared_ptr<swagger::Resources>, m_resources);
 
-private:
-	std::shared_ptr<ApiController::OutgoingResponse> getFile(const String &filename)
+	std::shared_ptr<OutgoingResponse> getFile(const String &filename) const
 	{
 		if (m_resources->isStreaming())
 		{
@@ -35,11 +34,10 @@ private:
 	}
 
 public:
-	SwaggerController(const std::shared_ptr<ObjectMapper> &objectMapper) : oatpp::web::server::api::ApiController(objectMapper)
+	explicit SwaggerController(const std::shared_ptr<ObjectMapper> &objectMapper) : ApiController(objectMapper)
 	{
 	}
 
-public:
 	static std::shared_ptr<SwaggerController> createShared(OATPP_COMPONENT(std::shared_ptr<ObjectMapper>, objectMapper))
 	{
 		return std::make_shared<SwaggerController>(objectMapper);

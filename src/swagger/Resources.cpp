@@ -1,13 +1,13 @@
 
-#include "Resources.hpp"
-// #include <stdio.h>
 #include <fstream>
+
+#include "Resources.hpp"
 
 namespace swagger
 {
 	Resources::Resources(const oatpp::String &resDir, const bool streaming)
 	{
-		if (!resDir || resDir->size() == 0) {
+		if (!resDir || resDir->empty()) {
 			throw std::runtime_error("[oatpp::swagger::Resources::Resources()]: Invalid resDir path. Please specify full path to oatpp-swagger/res folder");
 		}
 
@@ -24,7 +24,7 @@ namespace swagger
 		m_resources[fileName] = loadFromFile(fileName);
 	}
 
-	oatpp::String Resources::loadFromFile(const char *fileName)
+	oatpp::String Resources::loadFromFile(const char *fileName) const
 	{
 		const auto &fullFilename = m_resDir + fileName;
 
@@ -59,7 +59,7 @@ namespace swagger
 			"3. You specified correct full path to docker-api-swagger-oatpp/res folder");
 	}
 
-	std::shared_ptr<Resources::ReadCallback> Resources::getResourceStream(const oatpp::String &filename)
+	std::shared_ptr<Resources::ReadCallback> Resources::getResourceStream(const oatpp::String &filename) const
 	{
 		try
 		{
@@ -85,17 +85,17 @@ namespace swagger
 		return m_stream.read(buffer, count, action);
 	}
 
-	bool Resources::hasEnding(std::string fullString, std::string const &ending) const {
+	bool Resources::hasEnding(std::string fullString, std::string const &ending) {
 		std::transform(fullString.begin(), fullString.end(), fullString.begin(),
-					[](unsigned char c) { return std::tolower(c); });
+					[](const unsigned char c) { return std::tolower(c); });
+
 		if (fullString.length() >= ending.length()) {
-			return (0 == fullString.compare(fullString.length() - ending.length(), ending.length(), ending));
-		} else {
-			return false;
+			return 0 == fullString.compare(fullString.length() - ending.length(), ending.length(), ending);
 		}
+		return false;
 	}
 
-	std::string Resources::getMimeType(const std::string &filename) const {
+	std::string Resources::getMimeType(const std::string &filename) {
 		if (hasEnding(filename, ".html")) return "text/html";
 		if (hasEnding(filename, ".jpg")) return "image/jpeg";
 		if (hasEnding(filename, ".jpeg")) return "image/jpeg";

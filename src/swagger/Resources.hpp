@@ -20,18 +20,19 @@ namespace swagger
 		std::unordered_map<oatpp::String, oatpp::String> m_resources;
 		bool m_streaming;
 
-		oatpp::String loadFromFile(const char *fileName);
+		oatpp::String loadFromFile(const char *fileName) const;
 		void cacheResource(const char *fileName);
-		bool hasEnding(std::string fullString, std::string const &ending) const;
 
-		class ReadCallback : public oatpp::data::stream::ReadCallback
+		static bool hasEnding(std::string fullString, std::string const &ending);
+
+		class ReadCallback final : public oatpp::data::stream::ReadCallback
 		{
 		private:
 			oatpp::String m_file;
 			oatpp::data::stream::FileInputStream m_stream;
 
 		public:
-			ReadCallback(const oatpp::String &file);
+			explicit ReadCallback(const oatpp::String &file);
 			oatpp::v_io_size read(void *buffer, v_buff_size count, oatpp::async::Action &action) override;
 		};
 
@@ -39,8 +40,9 @@ namespace swagger
 		/**
 		 * Constructor.
 		 * @param resDir - directory containing swagger-ui resources.
+		 * @param streaming
 		 */
-		Resources(const oatpp::String &resDir, bool streaming = false);
+		explicit Resources(const oatpp::String &resDir, bool streaming = false);
 
 		/**
 		 * Load and cache Swagger-UI resources.
@@ -95,13 +97,13 @@ namespace swagger
 		 * @param filename - name of the resource file.
 		 * @return - `std::shared_ptr` to& id:oatpp::data::stream::ReadCallback; containing resource binary data stream."
 		 */
-		std::shared_ptr<ReadCallback> getResourceStream(const oatpp::String &filename);
+		std::shared_ptr<ReadCallback> getResourceStream(const oatpp::String &filename) const;
 
 		/**
 		 * Returns true if this is a streaming ressource instance.
 		 * @return
 		 */
-		bool isStreaming()
+		bool isStreaming() const
 		{
 			return m_streaming;
 		}
@@ -111,7 +113,7 @@ namespace swagger
 		 * @param filename to return the MIME type
 		 * @return a MIME type
 		 */
-		std::string getMimeType(const std::string &filename) const;
+		static std::string getMimeType(const std::string &filename);
 	};
 }
 

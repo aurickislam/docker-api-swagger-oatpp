@@ -7,7 +7,7 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-class ErrorResponseDto : public oatpp::DTO
+class ErrorResponseDto final : public oatpp::DTO
 {
 	DTO_INIT(ErrorResponseDto, DTO);
 
@@ -30,7 +30,7 @@ class ErrorResponseDto : public oatpp::DTO
 	DTO_FIELD(String, message);
 };
 
-class DockerInfo : public oatpp::DTO
+class DockerInfo final : public oatpp::DTO
 {
 	DTO_INIT(DockerInfo, DTO);
 
@@ -47,7 +47,7 @@ class DockerInfo : public oatpp::DTO
 	DTO_FIELD(UInt16, ContainersRunning);
 };
 
-class DockerVersion : public oatpp::DTO
+class DockerVersion final : public oatpp::DTO
 {
 	DTO_INIT(DockerVersion, DTO);
 
