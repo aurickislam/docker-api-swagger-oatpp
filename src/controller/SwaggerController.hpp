@@ -23,7 +23,7 @@ private:
 	constexpr static const char *TAG = "SwaggerController";
 	OATPP_COMPONENT(std::shared_ptr<swagger::Resources>, m_resources);
 
-	std::shared_ptr<OutgoingResponse> getFile(const String &filename) const
+	std::shared_ptr<OutgoingResponse> getFile(const oatpp::String &filename) const
 	{
 		if (m_resources->isStreaming())
 		{
