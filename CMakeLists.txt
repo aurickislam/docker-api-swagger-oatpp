@@ -4,7 +4,7 @@ set(project_name docker-api-swagger-oatpp)
 
 project(${project_name})
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 
 add_library(${project_name}-lib
         src/AppComponent.hpp

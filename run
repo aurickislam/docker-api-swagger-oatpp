@@ -1,8 +1,8 @@
 #!/bin/sh
 
-cd ./build
-
 export DOCKER_SERVER_IP=192.168.88.18
 export DOCKER_SERVER_PORT=2375
 
-clear && cmake .. && make -j $(nproc) && clear && ./docker-api-swagger-oatpp
+clear && cmake -Bbuild && make -Cbuild -j $(nproc) && clear && ./build/docker-api-swagger-oatpp
+
+# docker run -it --rm -v `pwd`:/app docker-api-swagger-oatpp

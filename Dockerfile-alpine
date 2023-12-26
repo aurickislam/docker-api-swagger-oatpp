@@ -1,12 +1,14 @@
 FROM alpine
 
-RUN apk update && apk upgrade && apk --no-cache add g++ git make cmake pkgconfig curl-dev
+RUN apk update && apk upgrade && apk --no-cache add g++ gdb git make cmake pkgconfig curl-dev
 
 ARG MAKE_PARALLEL_EXECUTION
 ENV MAKE_PARALLEL_EXECUTION $MAKE_PARALLEL_EXECUTION
 
-COPY ./utility /app/utility
+COPY ./utility/install-oatpp-modules-dev.sh /
 
-WORKDIR /app/utility
+WORKDIR /
 
-RUN sh install-oatpp-modules.sh Release
+RUN sh install-oatpp-modules-dev.sh Release
+
+WORKDIR /app
