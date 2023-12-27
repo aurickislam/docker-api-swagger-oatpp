@@ -56,6 +56,7 @@ namespace swagger
 			res->cacheResource("favicon-16x16.png");
 			res->cacheResource("favicon-32x32.png");
 			res->cacheResource("index.html");
+			res->cacheResource("index.css");
 			res->cacheResource("swagger-ui.css");
 			res->cacheResource("swagger-ui.css.map");
 			res->cacheResource("swagger-ui-bundle.js");
@@ -69,6 +70,7 @@ namespace swagger
 			res->cacheResource("swagger-ui-es-bundle.js.map");*/
 			res->cacheResource("swagger-ui-standalone-preset.js");
 			res->cacheResource("swagger-ui-standalone-preset.js.map");
+			res->cacheResource("swagger-initializer.js");
 			// res->cacheResource("swagger.json");
 			res->cacheResource("swagger.yaml");
 
