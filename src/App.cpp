@@ -20,13 +20,11 @@ void run(const oatpp::base::CommandLineArguments &args)
 	const auto &requestExecutor = components.requestExecutor.getObject();
 
 	std::cout << ColorUtils::yellow("\nTrying to connect to DOCKER server\n\n");
-	try
-	{
+	try {
 		const auto &headers = oatpp::web::protocol::http::Headers();
 
 		const auto &infoResponse = requestExecutor->executeOnce("GET", "info", headers, nullptr, requestExecutor->getConnection());
-		if (infoResponse->getStatusCode() == Status::CODE_200.code)
-		{
+		if (infoResponse->getStatusCode() == Status::CODE_200.code) {
 			const auto &apiObjectMapper = components.apiObjectMapper.getObject();
 
 			const auto &infoResponseBody = infoResponse->readBodyToString();
@@ -36,8 +34,7 @@ void run(const oatpp::base::CommandLineArguments &args)
 			const auto &info = apiObjectMapper->readFromString<oatpp::Object<DockerInfo>>(infoResponseBody);
 
 			const auto &versionResponse = requestExecutor->executeOnce("GET", "version", headers, nullptr, requestExecutor->getConnection());
-			if (versionResponse->getStatusCode() == Status::CODE_200.code)
-			{
+			if (versionResponse->getStatusCode() == Status::CODE_200.code) {
 				const auto &versionResponseBody = versionResponse->readBodyToString();
 
 				const auto &version = apiObjectMapper->readFromString<oatpp::Object<DockerVersion>>(versionResponseBody);
@@ -69,11 +66,9 @@ void run(const oatpp::base::CommandLineArguments &args)
 				std::cout << ColorUtils::cyan("Min API Version: ") << ColorUtils::red(version->MinAPIVersion) << "\n";
 			}
 		}
-	}
-	catch (const std::exception &e)
-	{
-		std::cerr << e.what() << "\n\n";
-		std::cout << "Shutting down the application\n";
+	} catch (const std::exception &e) {
+		std::cerr << ColorUtils::RED << e.what() << "\n\n"
+				<< "Shutting down the application\n" << ColorUtils::RESET;
 		throw std::exception();
 	}
 
